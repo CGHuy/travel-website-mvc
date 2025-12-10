@@ -7,7 +7,12 @@ $dbname = "db_web_du_lich";
 $debug = true; // sau này có thể chuyển sang false để tắt debug
 
 try {
+    // Tạo kết nối
     $connect = new mysqli($servername, $username, $password, $dbname);
+
+    // Thiết lập bộ ký tự cho kết nối (đảm bảo db và ứng dụng sử dụng cùng bộ ký tự)
+    $connect->set_charset("utf8mb4");
+
     if ($debug) {
         echo "Kết nối DB thành công!";
     }
@@ -21,7 +26,4 @@ try {
     }
     exit;
 }
-
-// Thiết lập bộ ký tự cho kết nối
-$connect->set_charset("utf8mb4");
 ?>
