@@ -10,12 +10,35 @@ class UserController
         $this->userModel = new User();
     }
 
+
     // Hiển thị danh sách người dùng
     public function index()
     {
-        $users = $this->userModel->getAllUsers(); //Lấy hết danh sách người dùng
+        $users = $this->userModel->getAllUsers();
         include __DIR__ . '/../views/user_list.php';
     }
+
+    // Hiển thị form thêm người dùng
+    public function create()
+    {
+        include __DIR__ . '/../views/user_create.php';
+    }
+
+    // Xử lý lưu người dùng mới
+    public function store()
+    {
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        if ($name === '' || $email === '') {
+            $error = "Tên và email không được để trống!";
+            include __DIR__ . '/../views/user_create.php';
+            return;
+        }
+        $this->userModel->createUser($name, $email);
+        header("Location: /index.php?controller=user&action=index");
+        exit;
+    }
+
 
     // Hiển thị thông tin một người dùng
     public function show($id)
@@ -24,37 +47,36 @@ class UserController
         include __DIR__ . '/../views/user_detail.php';
     }
 
-    // Xử lý tạo người dùng mới
-    public function create($name, $email)
+    // Hiển thị form sửa người dùng
+    public function edit($id)
     {
-        if (empty($name) || empty($email)) {
-            echo "Tên và email không được để trống!";
-            return;
-        }
-        $result = $this->userModel->createUser($name, $email);
-        header("Location: /index.php?controller=user&action=index");
+        $user = $this->userModel->getUserById($id);
+        include __DIR__ . '/../views/user_edit.php';
     }
 
     // Xử lý cập nhật người dùng
-    public function update($id, $name, $email)
+    public function update($id)
     {
-        if (empty($id) || empty($name) || empty($email)) {
-            echo "Thiếu thông tin cập nhật!";
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        if ($name === '' || $email === '') {
+            $error = "Thiếu thông tin cập nhật!";
+            $user = ['id' => $id, 'name' => $name, 'email' => $email];
+            include __DIR__ . '/../views/user_edit.php';
             return;
         }
-        $result = $this->userModel->updateUser($id, $name, $email);
+        $this->userModel->updateUser($id, $name, $email);
         header("Location: /index.php?controller=user&action=index");
+        exit;
     }
+
 
     // Xử lý xóa người dùng
     public function delete($id)
     {
-        if (empty($id)) {
-            echo "Thiếu thông tin xóa!";
-            return;
-        }
-        $result = $this->userModel->deleteUser($id);
+        $this->userModel->deleteUser($id);
         header("Location: /index.php?controller=user&action=index");
+        exit;
     }
 }
 ?>
