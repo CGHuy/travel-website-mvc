@@ -1,6 +1,5 @@
 <?php
 return [
-    'user.index' => ['controller' => 'UserController', 'action' => 'index'],
-    'user.show' => ['controller' => 'UserController', 'action' => 'show'],
-    // Thêm các route khác nếu cần
+    'user.edit' => ['controller' => 'UserController', 'action' => 'edit'],
+    'user.update' => ['controller' => 'UserController', 'action' => 'update'],
 ];

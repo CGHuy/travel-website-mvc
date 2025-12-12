@@ -27,7 +27,7 @@ class Booking
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function create($user_id, $departure_id, $quantity, $total_price, $payment_status, $status, $contact_name, $contact_phone, $contact_email, $note)
+    public function create($user_id, $departure_id, $quantity, $total_price, $payment_status = 'unpaid', $status = 'pending', $contact_name, $contact_phone, $contact_email, $note = null)
     {
         $stmt = $this->conn->prepare("INSERT INTO bookings (user_id, departure_id, quantity, total_price, payment_status, status, contact_name, contact_phone, contact_email, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("iiidssssss", $user_id, $departure_id, $quantity, $total_price, $payment_status, $status, $contact_name, $contact_phone, $contact_email, $note);

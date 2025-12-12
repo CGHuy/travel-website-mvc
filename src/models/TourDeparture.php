@@ -27,7 +27,7 @@ class TourDeparture
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function create($tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status)
+    public function create($tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status = 'open')
     {
         $stmt = $this->conn->prepare("INSERT INTO tour_departures (tour_id, departure_location, departure_date, price_moving, seats_total, seats_available, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("issdiis", $tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status);

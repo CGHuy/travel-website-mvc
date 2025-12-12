@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
-class Service
+class TourService
 {
     private $db;
     private $conn;
@@ -11,7 +11,7 @@ class Service
     }
     public function getAll()
     {
-        $sql = "SELECT * FROM services";
+        $sql = "SELECT * FROM tour_services";
         $result = $this->conn->query($sql);
         $services = [];
         if ($result)
@@ -21,27 +21,21 @@ class Service
     }
     public function getById($id)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM services WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM tour_services WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function create($name, $slug, $description, $icon = null, $status = 1)
+    public function create($tour_id, $service_id)
     {
-        $stmt = $this->conn->prepare("INSERT INTO services (name, slug, description, icon, status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssi", $name, $slug, $description, $icon, $status);
-        return $stmt->execute();
-    }
-    public function update($id, $name, $slug, $description, $icon, $status)
-    {
-        $stmt = $this->conn->prepare("UPDATE services SET name = ?, slug = ?, description = ?, icon = ?, status = ? WHERE id = ?");
-        $stmt->bind_param("sssisi", $name, $slug, $description, $icon, $status, $id);
+        $stmt = $this->conn->prepare("INSERT INTO tour_services (tour_id, service_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $tour_id, $service_id);
         return $stmt->execute();
     }
     public function delete($id)
     {
-        $stmt = $this->conn->prepare("DELETE FROM services WHERE id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM tour_services WHERE id = ?");
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }

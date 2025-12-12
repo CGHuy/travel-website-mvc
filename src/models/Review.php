@@ -27,7 +27,7 @@ class Review
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function create($user_id, $tour_id, $rating, $comment)
+    public function create($user_id, $tour_id, $rating, $comment = null)
     {
         $stmt = $this->conn->prepare("INSERT INTO reviews (user_id, tour_id, rating, comment) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiis", $user_id, $tour_id, $rating, $comment);
