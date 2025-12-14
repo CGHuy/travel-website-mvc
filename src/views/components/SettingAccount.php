@@ -13,16 +13,43 @@ include __DIR__ . '/../partials/menu.php';
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/AppStyle.css">
+    <link rel="stylesheet" href="css/SettingAccount.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
 
 </head>
 
 <body>
     <div class="container-fluid my-4">
         <div class="d-flex gap-4 px-5">
-            <div class="card menu" style="flex: 0 0 20%;">
-                <div class="card-body">
-                    <p class="card-text">Thông tin cá nhân</p>
+            <div class="card menu menu-card" style="flex: 0 0 20%;">
+                <div class="card-body p-3">
+                    <ul class="menu-list">
+                        <li class="menu-item active">
+                            <i class="fa-solid fa-user"></i>
+                            <a href="<?= route('user.edit'); ?>" class="text-decoration-none flex-grow-1"
+                                style="color: inherit;">Thông tin cá nhân</a>
+                        </li>
+                        <li class="menu-item">
+                            <i class="fa-solid fa-lock"></i>
+                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Đổi mật
+                                khẩu</a>
+                        </li>
+                        <li class="menu-item">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Lịch sử đặt
+                                tour</a>
+                        <li class="menu-item">
+                            <i class="fa-solid fa-heart"></i>
+                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Tour yêu
+                                thích</a>
+                        </li>
+                        </li>
+                        <li class="menu-item">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Đăng xuất</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
