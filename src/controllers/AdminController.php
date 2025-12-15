@@ -16,25 +16,25 @@ class AdminController {
     public function itinerary() {
         $itineraryModel = new TourItinerary();
         $itineraries = $itineraryModel->getAll();
-        include __DIR__ . '/../views/components/QuanLyLichTrinh.php'; // Giả sử tạo file này
+        include __DIR__ . '/../views/components/QuanLyLichTrinh.php';
     }
 
     public function booking() {
         $bookingModel = new Booking();
         $bookings = $bookingModel->getAll();
-        include __DIR__ . '/../views/components/QuanLyBooking.php'; // Giả sử
+        include __DIR__ . '/../views/components/QuanLyBooking.php';
     }
 
     public function user() {
         $userModel = new User();
         $users = $userModel->getAll();
-        include __DIR__ . '/../views/components/QuanLyUser.php'; // Giả sử
+        include __DIR__ . '/../views/components/QuanLyUser.php';
     }
 
     public function service() {
         $serviceModel = new Service();
         $services = $serviceModel->getAll();
-        include __DIR__ . '/../views/components/QuanLyService.php'; // Giả sử
+        include __DIR__ . '/../views/components/QuanLyService.php';
     }
 }
 ?>

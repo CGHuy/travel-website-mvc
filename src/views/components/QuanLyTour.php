@@ -1,33 +1,28 @@
-<h2>Quản Lý Tour</h2>
-<a href="#" class="btn btn-primary mb-3">Thêm Tour Mới</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tên Tour</th>
-            <th>Mô tả</th>
-            <th>Giá</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($tours)): ?>
-            <?php foreach ($tours as $tour): ?>
-                <tr>
-                    <td><?= htmlspecialchars($tour['id']) ?></td>
-                    <td><?= htmlspecialchars($tour['name']) ?></td>
-                    <td><?= htmlspecialchars($tour['description']) ?></td>
-                    <td><?= number_format($tour['price_default']) ?> VNĐ</td>
-                    <td>
-                        <a href="#" class="btn btn-sm btn-warning">Sửa</a>
-                        <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="5">Không có tour nào.</td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+<?php include __DIR__ . '/../partials/header.php'; ?>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/AppStyle.css">
+    <link rel="stylesheet" href="css/SettingAccount.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+
+    <div >
+
+    </div>
+</body>
+
+<?php include __DIR__ . '/../partials/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
