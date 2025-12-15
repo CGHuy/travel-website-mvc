@@ -21,6 +21,11 @@
                 <a href="<?= route('admin.service'); ?>" class="text-decoration-none flex-grow-1" style="color: inherit;">
                     Quản lý dịch vụ</a>
             </li>
+            <li class="menu-item <?= $currentPage === 'user' ? 'active' : '' ?>">
+                <i class="fa-solid fa-users"></i>
+                <a href="<?= route('admin.user'); ?>" class="text-decoration-none flex-grow-1" style="color: inherit;">
+                    Quản lý user</a>
+            </li>
         </ul>
     </div>
 </div>
