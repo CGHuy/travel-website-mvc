@@ -41,8 +41,7 @@ include __DIR__ . '/../partials/menu.php';
                                 tour</a>
                         <li class="menu-item">
                             <i class="fa-solid fa-heart"></i>
-                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Tour yêu
-                                thích</a>
+                            <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Tour yêu thích</a>
                         </li>
                         </li>
                         <li class="menu-item">
