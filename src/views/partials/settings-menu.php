@@ -12,12 +12,13 @@
                     style="color: inherit;">Đổi mật
                     khẩu</a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item <?= $currentPage === 'booking-history' ? 'active' : '' ?>">
                 <i class="fa-solid fa-clock-rotate-left"></i>
-                <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Lịch sử đặt
+                <a href="<?= route('settinguser.bookingHistory'); ?>" class="text-decoration-none flex-grow-1"
+                    style="color: inherit;">Lịch sử đặt
                     tour</a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item <?= $currentPage === 'favorites' ? 'active' : '' ?>">
                 <i class="fa-solid fa-heart"></i>
                 <a href="#" class="text-decoration-none flex-grow-1" style="color: inherit;">Tour yêu
                     thích</a>

@@ -1,16 +1,20 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../service/BookingHistoryService.php';
 
 class SettingUserController
 {
     private $userModel;
+    private $bookingHistoryModel;
     private $userId = 1; // cố định
 
     public function __construct() // Khởi tạo model User
     {
         $this->userModel = new User();
+        $this->bookingHistoryModel = new BookingHistoryService();
     }
 
+    //=================== Thông tin cá nhân ===================//
     public function edit()
     {
         $user = $this->userModel->getById($this->userId); // Lấy thông tin user theo $userId
@@ -24,7 +28,7 @@ class SettingUserController
 
     public function update() // Xử lý cập nhật thông tin cá nhân
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') { // ko phải POST thì quay về trang edit
             header('Location: ' . route('settinguser.edit'));
             return;
         }
@@ -35,7 +39,7 @@ class SettingUserController
             echo "User không tồn tại";
             return;
         }
-
+        // Lấy dữ liệu từ form (nếu ko có dữ liệu ms thì giữ nguyên)
         $fullname = $_POST['fullname'] ?? $user['fullname'];
         $phone = $_POST['phone'] ?? $user['phone'];
         $email = $_POST['email'] ?? $user['email'];
@@ -43,7 +47,7 @@ class SettingUserController
         if ($password === '') {
             $password = $user['password']; // giữ nguyên nếu không đổi
         }
-
+        // Gọi hàm update của model User để cập nhật thông tin
         $this->userModel->update(
             $this->userId,
             $fullname,
@@ -53,14 +57,17 @@ class SettingUserController
             $user['role'],
             $user['status']
         );
-
+        // Cập nhật dữ liệu chuyển về trang edit
         header('Location: ' . route('settinguser.edit'));
     }
-    public function changePassword()
+
+
+    //=================== Đổi mật khẩu ===================//
+    public function changePassword() // Hiển thị form đổi mật khẩu
     {
         include __DIR__ . '/../views/components/ChangePassword.php';
     }
-    public function updatePassword()
+    public function updatePassword() // Xử lý cập nhật mật khẩu
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . route('settinguser.changePassword'));
@@ -78,16 +85,17 @@ class SettingUserController
         $newPassword = $_POST['new_password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
+        // Kiểm tra mật khẩu hiện tại (mk nhập ko trùng vs mk trong db thì lỗi)
         if ($currentPassword !== $user['password']) {
             echo "Mật khẩu hiện tại không đúng.";
             return;
         }
-
+        // Kiểm tra mk mới và xác nhận mk có trùng nhau ko
         if ($newPassword !== $confirmPassword) {
             echo "Mật khẩu mới và xác nhận mật khẩu không khớp.";
             return;
         }
-
+        // Cập nhật mật khẩu mới
         $this->userModel->update(
             $this->userId,
             $user['fullname'],
@@ -100,4 +108,44 @@ class SettingUserController
 
         header('Location: ' . route('settinguser.changePassword'));
     }
+
+    //=================== Lịch sử đặt tour ===================//
+    public function bookingHistory() // Hiển thị lịch sử đặt tour
+    {
+        // Lấy lịch sử đặt tour từ DB theo userId
+        $bookings = $this->bookingHistoryModel->getByUserId($this->userId);
+        // Biến $bookings sẽ được dùng trong view
+        include __DIR__ . '/../views/components/BookingHistory.php';
+    }
+    public function updateBookingHistory() // Xử lý cập nhật lịch sử đặt tour
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . route('settinguser.bookingHistory'));
+            return;
+        }
+        // Nếu có id thì lấy chi tiết, không có thì lấy danh sách
+        $bookingId = isset($_POST['id']) ? (int) $_POST['id'] : null;
+
+        if ($bookingId) {
+            $bookingDetail = $this->bookingHistoryModel->getById($bookingId);
+            if (!$bookingDetail) {
+                http_response_code(404);
+                echo "Booking không tồn tại";
+                return;
+            }
+            $bookings = [$bookingDetail];
+        } else {
+            $bookings = $this->bookingHistoryModel->getByUserId($this->userId);
+        }
+
+
+
+
+
+
+
+        // Hiển thị lại view với dữ liệu từ DB
+        include __DIR__ . '/../views/components/BookingHistory.php';
+    }
+
 }

@@ -27,8 +27,10 @@
     <div class="d-flex align-items-center gap-2">
         <button class="d-none d-sm-flex btn btn-primary rounded-pill px-4 fw-bold">Đăng nhập</button>
         <button class="d-none d-sm-flex btn btn-light rounded-pill px-4 fw-bold border">Đăng ký</button>
-        <div class="rounded-circle overflow-hidden"
-            style="width:40px; height:40px; background-size:cover; background-position:center; background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdAJYOADieIt84Dfw2UfqcTV7w7ziE9Z_M8fnRnU5DUYpmTYKJByFLrgMNTyV-dmXqV8QiAEHkoxyFXXfrXW-ZkDSUPD94DsS9y9lVaNcg3Dwx7oSqOzXab-3F0ioQ8hsIUyE9dgLWi72PBmYwtF7S-jF1F6SU0XnlFUbMYkjmm2jfb75xwcTqy_VXIY4yeyMmKckuJltzR3DSaiDibhWUI-ZfzweEbmccIzvpUL0jCJvJcPPPOaY1x3MexpdWC1yB50j4wCwwHafQ');">
-        </div>
+        <a href="<?= route('settinguser.edit'); ?>" class="rounded-circle overflow-hidden"
+            style="width:40px; height:40px; cursor: pointer;" title="Thông tin cá nhân">
+            <img src="images/image.png" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+        </a>
+        </a>
     </div>
 </header>
