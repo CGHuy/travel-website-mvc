@@ -70,35 +70,31 @@ include __DIR__ . '/../partials/menu.php';
                     <div class="mb-4">
                         <label class="form-label fw-bold">Thời lượng</label>
                         <div class="btn-group w-100" role="group">
-                            <input type="radio" class="btn-check" name="duration" id="duration1" autocomplete="off"
-                                checked>
+                            <input type="radio" class="btn-check" name="duration_range" id="duration_all" value="" autocomplete="off" onchange="this.form.submit()"
+                                <?php echo (!isset($_GET['duration_range']) || $_GET['duration_range'] === '') ? 'checked' : ''; ?> >
+                            <label class="btn btn-outline-primary" for="duration_all">Tất cả</label>
+                            <input type="radio" class="btn-check" name="duration_range" id="duration1" value="1-3" autocomplete="off" onchange="this.form.submit()"
+                                <?php echo (isset($_GET['duration_range']) && $_GET['duration_range'] === '1-3') ? 'checked' : ''; ?> >
                             <label class="btn btn-outline-primary" for="duration1">1–3 ngày</label>
-                            <input type="radio" class="btn-check" name="duration" id="duration2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="duration2">4–7 ngày</label>
-                            <input type="radio" class="btn-check" name="duration" id="duration3" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="duration3">7+ ngày</label>
+                            <input type="radio" class="btn-check" name="duration_range" id="duration2" value="4+" autocomplete="off" onchange="this.form.submit()"
+                                <?php echo (isset($_GET['duration_range']) && $_GET['duration_range'] === '4+') ? 'checked' : ''; ?> >
+                            <label class="btn btn-outline-primary" for="duration2">4+ ngày</label>
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="form-label fw-bold">Dịch vụ</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="service1">
-                            <label class="form-check-label" for="service1">
-                                Bao gồm vé máy bay
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="service2" checked>
-                            <label class="form-check-label" for="service2">
-                                Khách sạn 5 sao
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="service3">
-                            <label class="form-check-label" for="service3">
-                                Có hướng dẫn viên
-                            </label>
-                        </div>
+                        <?php if (isset($allServices) && is_array($allServices)): ?>
+                            <?php foreach ($allServices as $service): ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="services[]" value="<?php echo $service['id']; ?>" id="service<?php echo $service['id']; ?>"
+                                        <?php echo (isset($_GET['services']) && is_array($_GET['services']) && in_array($service['id'], array_map('intval', $_GET['services']))) ? 'checked' : ''; ?>
+                                        onchange="this.form.submit()">
+                                    <label class="form-check-label" for="service<?php echo $service['id']; ?>">
+                                        <?php echo htmlspecialchars($service['name']); ?>
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>

@@ -1,22 +1,29 @@
 <?php
-require_once __DIR__ . '/../models/Tour.php';
+require_once __DIR__ . '/../models/Service.php';
+require_once __DIR__ . '/../service/ListTourService.php';
 
 class ListTourController
 {
     private $tourModel;
+    private $listTourService;
 
     public function __construct()
     {
         $this->tourModel = new Tour();
+        $this->listTourService = new ListTourService();
     }
 
     public function index()
     {
-        // Nếu có region trong query thì dùng method chuyên biệt, không đổi getAll()
         $region = isset($_GET['region']) && $_GET['region'] !== '' ? trim($_GET['region']) : '';
+        $durationRange = isset($_GET['duration_range']) && $_GET['duration_range'] !== '' ? $_GET['duration_range'] : '';
+        $services = isset($_GET['services']) && is_array($_GET['services']) ? array_map('intval', $_GET['services']) : [];
 
-        if ($region !== '') {
-            $allTours = $this->tourModel->getByRegion($region);
+        $serviceModel = new Service();
+        $allServices = $serviceModel->getAll();
+
+        if ($region !== '' || $durationRange !== '' || !empty($services)) {
+            $allTours = $this->listTourService->filterTours($region, $durationRange, $services);
         } else {
             $allTours = $this->tourModel->getAll();
         }

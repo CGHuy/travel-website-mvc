@@ -9,6 +9,7 @@ class Tour
         $this->db = new Database();
         $this->conn = $this->db->getConnection();
     }
+    
     public function getAll()
     {
         $sql = "SELECT * FROM tours";
