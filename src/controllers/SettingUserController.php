@@ -1,31 +1,31 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
 
-class UserController
+class SettingUserController
 {
     private $userModel;
     private $userId = 1; // cố định
 
-    public function __construct()
+    public function __construct() // Khởi tạo model User
     {
         $this->userModel = new User();
     }
 
     public function edit()
     {
-        $user = $this->userModel->getById($this->userId);
+        $user = $this->userModel->getById($this->userId); // Lấy thông tin user theo $userId
         if (!$user) {
             http_response_code(404);
             echo "User không tồn tại";
             return;
-        }
+        } // Hiển thị form chỉnh sửa thông tin cá nhân của user 
         include __DIR__ . '/../views/components/SettingAccount.php';
     }
 
-    public function update()
+    public function update() // Xử lý cập nhật thông tin cá nhân
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . route('user.edit'));
+            header('Location: ' . route('settinguser.edit'));
             return;
         }
 
@@ -54,7 +54,7 @@ class UserController
             $user['status']
         );
 
-        header('Location: ' . route('user.edit'));
+        header('Location: ' . route('settinguser.edit'));
     }
     public function changePassword()
     {
@@ -63,7 +63,7 @@ class UserController
     public function updatePassword()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . route('user.changePassword'));
+            header('Location: ' . route('settinguser.changePassword'));
             return;
         }
 
@@ -98,6 +98,6 @@ class UserController
             $user['status']
         );
 
-        header('Location: ' . route('user.changePassword'));
+        header('Location: ' . route('settinguser.changePassword'));
     }
 }

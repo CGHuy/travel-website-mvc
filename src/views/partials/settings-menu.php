@@ -3,12 +3,12 @@
         <ul class="menu-list">
             <li class="menu-item <?= $currentPage === 'edit' ? 'active' : '' ?>">
                 <i class="fa-solid fa-user"></i>
-                <a href="<?= route('user.edit'); ?>" class="text-decoration-none flex-grow-1"
+                <a href="<?= route('settinguser.edit'); ?>" class="text-decoration-none flex-grow-1"
                     style="color: inherit;">Thông tin cá nhân</a>
             </li>
             <li class="menu-item <?= $currentPage === 'change-password' ? 'active' : '' ?>">
                 <i class="fa-solid fa-lock"></i>
-                <a href="<?= route('user.changePassword'); ?>" class="text-decoration-none flex-grow-1"
+                <a href="<?= route('settinguser.changePassword'); ?>" class="text-decoration-none flex-grow-1"
                     style="color: inherit;">Đổi mật
                     khẩu</a>
             </li>

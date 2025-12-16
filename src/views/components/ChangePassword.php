@@ -32,7 +32,7 @@ include __DIR__ . '/../partials/menu.php';
                     <p style="color: #636465ff ;">Cập nhật mật khẩu của bạn để bảo vệ tài khoản</p>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="<?= route('user.updatePassword'); ?>">
+                    <form method="post" action="<?= route('settinguser.updatePassword'); ?>">
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="mb-3">

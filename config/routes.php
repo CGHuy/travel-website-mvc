@@ -1,8 +1,8 @@
 <?php
 return [
-    'user.edit' => ['controller' => 'UserController', 'action' => 'edit'],
-    'user.update' => ['controller' => 'UserController', 'action' => 'update'],
-    'user.changePassword' => ['controller' => 'UserController', 'action' => 'changePassword'],
-    'user.updatePassword' => ['controller' => 'UserController', 'action' => 'updatePassword'],
+    'settinguser.edit' => ['controller' => 'SettingUserController', 'action' => 'edit'],
+    'settinguser.update' => ['controller' => 'SettingUserController', 'action' => 'update'],
+    'settinguser.changePassword' => ['controller' => 'SettingUserController', 'action' => 'changePassword'],
+    'settinguser.updatePassword' => ['controller' => 'SettingUserController', 'action' => 'updatePassword'],
 
 ];

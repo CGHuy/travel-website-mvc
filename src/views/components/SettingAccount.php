@@ -33,7 +33,7 @@ include __DIR__ . '/../partials/menu.php';
                     <p style="color: #636465ff ;">Cập nhật thông tin và ảnh đại diện của bạn</p>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="<?= route('user.update'); ?>">
+                    <form method="post" action="<?= route('settinguser.update'); ?>">
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
                                 <div class="mb-3">
