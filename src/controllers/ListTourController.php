@@ -18,12 +18,13 @@ class ListTourController
         $region = isset($_GET['region']) && $_GET['region'] !== '' ? trim($_GET['region']) : '';
         $durationRange = isset($_GET['duration_range']) && $_GET['duration_range'] !== '' ? $_GET['duration_range'] : '';
         $services = isset($_GET['services']) && is_array($_GET['services']) ? array_map('intval', $_GET['services']) : [];
+        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         $serviceModel = new Service();
         $allServices = $serviceModel->getAll();
 
-        if ($region !== '' || $durationRange !== '' || !empty($services)) {
-            $allTours = $this->listTourService->filterTours($region, $durationRange, $services);
+        if ($region !== '' || $durationRange !== '' || !empty($services) || $search !== '') {
+            $allTours = $this->listTourService->filterTours($region, $durationRange, $services, $search);
         } else {
             $allTours = $this->tourModel->getAll();
         }

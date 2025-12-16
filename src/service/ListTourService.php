@@ -9,11 +9,12 @@ class ListTourService
         $this->tourModel = new Tour();
     }
 
+
     /**
-     * Lọc tour theo region, duration, services (lọc đủ tất cả dịch vụ)
+     * Lọc tour theo region, duration, services, search
      * $services: mảng id dịch vụ (int)
      */
-    public function filterTours($region = '', $durationRange = '', $services = [])
+    public function filterTours($region = '', $durationRange = '', $services = [], $search = '')
     {
         $params = [];
         $where = [];
@@ -23,6 +24,10 @@ class ListTourService
         if ($region !== '') {
             $where[] = 't.region = ?';
             $params[] = $region;
+        }
+        if ($search !== '') {
+            $where[] = 't.name LIKE ?';
+            $params[] = '%' . $search . '%';
         }
         if (!empty($services)) {
             $count = count($services);
@@ -37,11 +42,14 @@ class ListTourService
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
         $sql .= $group . $having;
-        $db = new \Database();
+        $db = new Database();
         $conn = $db->getConnection();
         $stmt = $conn->prepare($sql);
         if ($params) {
-            $types = str_repeat('s', count($params));
+            $types = '';
+            foreach ($params as $p) {
+                $types .= is_int($p) ? 'i' : 's';
+            }
             $stmt->bind_param($types, ...$params);
         }
         $stmt->execute();
@@ -50,74 +58,19 @@ class ListTourService
         while ($row = $result->fetch_assoc()) {
             $tours[] = $row;
         }
-        // Lọc tiếp theo duration nếu có
-        if ($durationRange !== '') {
-            $filtered = [];
-            foreach ($tours as $tour) {
-                $days = null;
-                if (preg_match('/(\d+)\s*ngày/i', $tour['duration'], $matches)) {
-                    $days = (int) $matches[1];
-                } elseif (preg_match('/(\d+)/', $tour['duration'], $matches)) {
-                    $days = (int) $matches[1];
-                }
-                if ($days !== null) {
-                    if (
-                        ($durationRange === '1-3' && $days >= 1 && $days <= 3) ||
-                        ($durationRange === '4+' && $days >= 4)
-                    ) {
-                        $filtered[] = $tour;
-                    }
-                }
-            }
-            return $filtered;
-        }
-        return $tours;
+        return $this->filterByDuration($tours, $durationRange);
     }
 
     /**
-     * Lọc tour theo region và khoảng ngày thực tế (duration)
-     * $durationRange: '1-3', '4-7', '8+'
+     * Lọc tour theo duration (private, dùng chung)
      */
-    public function getByRegionAndDuration($region, $durationRange)
+    private function filterByDuration($tours, $durationRange)
     {
-        $tours = $this->tourModel->getByRegion($region);
         if ($durationRange === '' || $durationRange === null) {
             return $tours;
         }
         $filtered = [];
         foreach ($tours as $tour) {
-            // Ưu tiên lấy số ngày (trước từ "ngày"), ví dụ: "4 ngày 3 đêm" => 4
-            $days = null;
-            if (preg_match('/(\d+)\s*ngày/i', $tour['duration'], $matches)) {
-                $days = (int) $matches[1];
-            } elseif (preg_match('/(\d+)/', $tour['duration'], $matches)) {
-                $days = (int) $matches[1];
-            }
-            if ($days !== null) {
-                if (
-                    ($durationRange === '1-3' && $days >= 1 && $days <= 3) ||
-                    ($durationRange === '4+' && $days >= 4)
-                ) {
-                    $filtered[] = $tour;
-                }
-            }
-        }
-        return $filtered;
-    }
-
-    /**
-     * Lọc tour theo khoảng ngày thực tế (duration), không phụ thuộc region
-     * $durationRange: '1-3', '4-7', '8+'
-     */
-    public function getByDurationRange($durationRange)
-    {
-        $tours = $this->tourModel->getAll();
-        if ($durationRange === '' || $durationRange === null) {
-            return $tours;
-        }
-        $filtered = [];
-        foreach ($tours as $tour) {
-            // Ưu tiên lấy số ngày (trước từ "ngày"), ví dụ: "4 ngày 3 đêm" => 4
             $days = null;
             if (preg_match('/(\d+)\s*ngày/i', $tour['duration'], $matches)) {
                 $days = (int) $matches[1];

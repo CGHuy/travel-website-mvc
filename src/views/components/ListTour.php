@@ -40,7 +40,7 @@ include __DIR__ . '/../partials/menu.php';
         </div>
 
         <div class="main-body d-flex gap-4">
-            <div class="card p-4" style="flex: 0 0 20%; min-height: 70vh; align-self: flex-start;">
+            <div class="card p-4" style="flex: 0 0 20%; min-height: 65vh; align-self: flex-start;">
                 <h5>Bộ lọc</h5>
                 <!-- Bộ lọc bên trái -->
                 <form method="get" action="<?= route('ListTour.index') ?>">
@@ -99,6 +99,32 @@ include __DIR__ . '/../partials/menu.php';
                 </form>
             </div>
             <div class="list-tour" style="flex: 0 0 calc(80% - 1rem);">
+                <div class="p-3">
+                    <form method="get" action="<?= route('ListTour.index') ?>" class="search-group" style="margin-bottom: 1rem;">
+                        <input type="hidden" name="controller" value="ListTour">
+                        <input type="hidden" name="action" value="index">
+                        <?php if (isset($_GET['region'])): ?>
+                            <input type="hidden" name="region" value="<?= htmlspecialchars($_GET['region']) ?>">
+                        <?php endif; ?>
+                        <?php if (isset($_GET['duration_range'])): ?>
+                            <input type="hidden" name="duration_range" value="<?= htmlspecialchars($_GET['duration_range']) ?>">
+                        <?php endif; ?>
+                        <?php if (isset($_GET['services']) && is_array($_GET['services'])): ?>
+                            <?php foreach ($_GET['services'] as $serviceId): ?>
+                                <input type="hidden" name="services[]" value="<?= htmlspecialchars($serviceId) ?>">
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php if (isset($_GET['page'])): ?>
+                            <input type="hidden" name="page" value="<?= htmlspecialchars($_GET['page']) ?>">
+                        <?php endif; ?>
+                        <div class="search-icon">
+                            <span class="material-symbols-outlined">
+                                <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+                            </span>
+                        </div>
+                        <input class="search-input" name="search" placeholder="Tìm kiếm tour theo tên, địa điểm..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                    </form>
+                </div>
                 <!-- Danh sách tour: 2 hàng 3 cột, Bootstrap, có phân trang -->
                 <div class="container">
                     <div class="row g-3">
