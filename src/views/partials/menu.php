@@ -19,7 +19,7 @@
         <h2 class="fs-4 fw-bold mb-0">VietTour</h2>
     </div>
     <nav class="d-none d-lg-flex flex-grow-1 justify-content-center align-items-center gap-4">
-        <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Tours</a>
+        <a class="text-decoration-none text-body fw-medium px-2 py-1" href="<?= route('ListTour.index') ?>">Tours</a>
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Điểm đến</a>
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Về chúng tôi</a>
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Liên hệ</a>
