@@ -43,23 +43,28 @@ include __DIR__ . '/../partials/menu.php';
             <div class="card p-4" style="flex: 0 0 20%; min-height: 70vh; align-self: flex-start;">
                 <h5>Bộ lọc</h5>
                 <!-- Bộ lọc bên trái -->
-                <form>
+                <form method="get" action="<?= route('ListTour.index') ?>">
+                    <input type="hidden" name="controller" value="ListTour">
+                    <input type="hidden" name="action" value="index">
+                    <?php if (isset($_GET['page'])): ?>
+                        <input type="hidden" name="page" value="<?php echo htmlspecialchars($_GET['page']); ?>">
+                    <?php endif; ?>
                     <div class="mb-4">
                         <label for="priceRange" class="form-label fw-bold">Giá</label>
                         <input type="range" class="form-range" min="500000" max="10000000" step="500000"
                             id="priceRange">
                         <div class="d-flex justify-content-between">
-                            <span>500.000đ</span>
+                            <span>2.000.000đ</span>
                             <span>10.000.000đ+</span>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="areaSelect" class="form-label fw-bold">Khu vực</label>
-                        <select class="form-select" id="areaSelect">
-                            <option>Tất cả</option>
-                            <option>Miền Bắc</option>
-                            <option>Miền Trung</option>
-                            <option>Miền Nam</option>
+                        <select class="form-select" id="areaSelect" name="region" onchange="this.form.submit()">
+                            <option value="" <?php echo (!isset($_GET['region']) || $_GET['region'] === '') ? 'selected' : ''; ?>>Tất cả</option>
+                            <option value="Miền Bắc" <?php echo (isset($_GET['region']) && $_GET['region'] === 'Miền Bắc') ? 'selected' : ''; ?>>Miền Bắc</option>
+                            <option value="Miền Trung" <?php echo (isset($_GET['region']) && $_GET['region'] === 'Miền Trung') ? 'selected' : ''; ?>>Miền Trung</option>
+                            <option value="Miền Nam" <?php echo (isset($_GET['region']) && $_GET['region'] === 'Miền Nam') ? 'selected' : ''; ?>>Miền Nam</option>
                         </select>
                     </div>
                     <div class="mb-4">

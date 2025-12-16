@@ -12,7 +12,15 @@ class ListTourController
 
     public function index()
     {
-        $allTours = $this->tourModel->getAll();
+        // Nếu có region trong query thì dùng method chuyên biệt, không đổi getAll()
+        $region = isset($_GET['region']) && $_GET['region'] !== '' ? trim($_GET['region']) : '';
+
+        if ($region !== '') {
+            $allTours = $this->tourModel->getByRegion($region);
+        } else {
+            $allTours = $this->tourModel->getAll();
+        }
+
         $perPage = 6;
         $page = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int) $_GET['page'] : 1;
         $totalTours = count($allTours);
