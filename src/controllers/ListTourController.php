@@ -1,16 +1,18 @@
 <?php
 require_once __DIR__ . '/../models/Service.php';
 require_once __DIR__ . '/../service/ListTourService.php';
-
+require_once __DIR__ . '/../models/TourImage.php';
 class ListTourController
 {
     private $tourModel;
     private $listTourService;
+    private $tourImageModel;
 
     public function __construct()
     {
         $this->tourModel = new Tour();
         $this->listTourService = new ListTourService();
+        $this->tourImageModel = new TourImage();
     }
 
     public function index()
@@ -39,5 +41,24 @@ class ListTourController
         $offset = ($page - 1) * $perPage;
         $tours = array_slice($allTours, $offset, $perPage);
         return include __DIR__ . '/../views/components/ListTour.php';
+    }
+
+    public function details($id = null)
+    {
+        if ($id === null && isset($_GET['id'])) {
+            $id = $_GET['id'];
+        }
+        $tour = $this->tourModel->getById($id);
+        // Lấy tất cả ảnh rồi lọc theo tour_id (không sửa model)
+        $allImages = $this->tourImageModel->getAll();
+        $tourImages = array_values(array_filter($allImages, function ($img) use ($id) {
+            return isset($img['tour_id']) && $img['tour_id'] == $id;
+        }));
+        if (!$tour) {
+            header("HTTP/1.0 404 Not Found");
+            echo "Tour not found";
+            exit;
+        }
+        return include __DIR__ . '/../views/components/DetailTour.php';
     }
 }

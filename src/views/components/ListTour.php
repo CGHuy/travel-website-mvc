@@ -1,4 +1,4 @@
-<!-- Đã chuyển CSS sang file ListTourStyle.css -->
+
 <?php
 include __DIR__ . '/../partials/menu.php';
 
@@ -174,7 +174,7 @@ include __DIR__ . '/../partials/menu.php';
                                                         style="font-size: 1.4rem;">
                                                         <?php echo number_format($tour['price_default'], 0, ',', '.') . 'đ'; ?>
                                                     </p>
-                                                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
+                                                    <a href="<?= route('ListTour.details', ['id' => $tour['id']]) ?>" class="btn btn-primary">Xem chi tiết</a>
                                                 </div>
                                             </div>
                                         </div>
