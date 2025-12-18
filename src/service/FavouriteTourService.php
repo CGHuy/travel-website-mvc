@@ -38,5 +38,14 @@ class FavouriteTourService
         return $favouriteTours;
     }
 
-    // Có thể bổ sung các hàm thêm/xóa yêu thích nếu cần
+    /**
+     * Xóa tour yêu thích theo wishlist_id
+     */
+    public function deleteFavourite($wishlist_id)
+    {
+        $sql = "DELETE FROM wishlist WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $wishlist_id);
+        return $stmt->execute();
+    }
 }

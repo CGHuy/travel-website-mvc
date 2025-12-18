@@ -16,7 +16,7 @@ class BookingHistoryService
      * Lấy lịch sử đặt tour của một user
      * JOIN giữa bookings, tour_departures, tours
      */
-    public function getByUserId($userId) // Lấy tất cả booking của user
+    public function getByUserId($userId, $status = null) // Lấy tất cả booking của user, có thể lọc theo trạng thái
     {
         $query = "
             SELECT 
@@ -56,11 +56,25 @@ class BookingHistoryService
             JOIN tour_departures td ON b.departure_id = td.id
             JOIN tours t ON td.tour_id = t.id
             WHERE b.user_id = ?
-            ORDER BY b.created_at DESC
         ";
 
+        $types = 'i'; // khai báo kiểu dữ liệu tham số truyền vào truy vấn Interger
+        $params = [$userId];
+
+        // Nếu $status có giá trị và nằm trong ds trạng thái hợp lệ thì thêm điều kiện lọc
+        if ($status && in_array($status, ['pending', 'confirmed', 'cancelled'])) {
+            $query .= " AND b.status = ?"; // thêm điều kiện lọc theo trạng thái
+            $types .= 's'; // kiểu string cho tham số $status
+            $params[] = $status; // thêm giá trị $status vào mảng tham số truyền vào truy vấn 
+        }
+        //Mục đích:
+        // Giúp hàm getByUserId có thể lấy tất cả booking của user hoặc chỉ lấy booking theo trạng thái mong muốn (chờ xác nhận, đã xác nhận, đã hủy), 
+        // tùy theo giá trị truyền vào từ controller.
+
+        $query .= " ORDER BY b.created_at DESC";
+
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $userId);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
 

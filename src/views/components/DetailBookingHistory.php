@@ -92,7 +92,7 @@ include __DIR__ . '/../partials/menu.php';
                                     <td><?= htmlspecialchars($bookingDetail['note']) ?></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="detail-payment-header">
                                     <th rowspan="4">
                                         <h6 style="color: #1a75c4ff;">THÔNG TIN THANH TOÁN</h6>
                                     </th>

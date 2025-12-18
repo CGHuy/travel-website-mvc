@@ -32,6 +32,16 @@ include __DIR__ . '/../partials/menu.php';
                         <?php foreach ($favoriteTours as $tour): ?>
                             <div class="col-12 col-lg-4">
                                 <div class="card h-100 position-relative">
+                                    <form method="post" action="<?= route('settinguser.updateFavoriteTour') ?>"
+                                        style="position:absolute;top:10px;right:10px;z-index:2;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="wishlist_id" value="<?= $tour['wishlist_id'] ?>">
+                                        <button type="submit" class="btn p-0 border-0 bg-transparent" title="Xóa khỏi yêu thích"
+                                            onclick="return confirm('Bạn có chắc muốn xóa tour này khỏi yêu thích?')">
+                                            <i class="fa-solid fa-heart" style="color: #ce1c40; font-size: 1.6rem;"></i>
+                                        </button>
+                                    </form>
+
 
 
                                     <?php if (!empty($tour['cover_image'])): ?>

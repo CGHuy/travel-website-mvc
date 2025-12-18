@@ -82,6 +82,11 @@
 	vertical-align: middle !important;
 	border-bottom: 1px solid #e0e4ea !important;
 }
+
+.detail-booking-table tr.detail-payment-header td,
+.detail-booking-table tr.detail-payment-header th {
+	border-bottom: none !important;
+}
 .detail-booking-table tr:last-child td,
 .detail-booking-table tr:last-child th {
 	border-bottom: none !important;

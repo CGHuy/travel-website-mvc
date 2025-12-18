@@ -113,7 +113,17 @@ class SettingUserController
     public function bookingHistory() // Hiển thị lịch sử đặt tour
     {
         // Lấy lịch sử đặt tour từ DB theo userId
-        $bookings = $this->bookingHistoryModel->getByUserId($this->userId);
+        $status = $_POST['sort'] ?? null; // lấy giá trị lọc
+        // Map giá trị từ combobox sang status DB
+        $statusMap = [
+            'status-warning' => 'pending',
+            'status-success' => 'confirmed',
+            'status-danger' => 'cancelled'
+        ];
+        $statusValue = $statusMap[$status] ?? null;
+
+        // Gọi service để lấy ds Booking đã lọc
+        $bookings = $this->bookingHistoryModel->getByUserId($this->userId, $statusValue);
         // Biến $bookings sẽ được dùng trong view
         include __DIR__ . '/../views/components/BookingHistory.php';
     }
@@ -185,7 +195,7 @@ class SettingUserController
             if ($action === 'add' && $tour_id) {
                 $wishlistModel->create($this->userId, $tour_id);
             } elseif ($action === 'delete' && $wishlist_id) {
-                $wishlistModel->delete($wishlist_id);
+                $favouriteTourService->deleteFavourite($wishlist_id);
             }
 
             header('Location: ' . route('settinguser.favoriteTour'));
