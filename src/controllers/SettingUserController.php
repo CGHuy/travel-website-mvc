@@ -6,7 +6,7 @@ class SettingUserController
 {
     private $userModel;
     private $bookingHistoryModel;
-    private $userId = 1; // cố định
+    private $userId = 2; // cố định
 
     public function __construct() // Khởi tạo model User
     {

@@ -1,61 +1,34 @@
-/* Card tour yêu thích */
-.favourite-tour-card {
-	border-radius: 18px;
-	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	background: #fff;
-	transition: box-shadow 0.2s;
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 24px;
-	border: none;
+.detail-booking-table tr:last-child td,
+.detail-booking-table tr:last-child th {
+	border-bottom: none !important;
 }
-.favourite-tour-card:hover {
-	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.16);
+
+/* Custom combobox for BookingHistory */
+.custom-combobox {
+	width: 220px;
+	padding: 8px 32px 8px 14px;
+	border: 1px solid #e0e4ea;
+	border-radius: 8px;
+	background: #f8fafc
+		url('data:image/svg+xml;utf8,<svg fill="%23636465" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"/></svg>')
+		no-repeat right 12px center/18px 18px;
+	font-size: 15px;
+	color: #636465ff;
+	font-weight: 500;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	transition: border-color 0.2s;
 }
-.favourite-tour-card .card-img-top {
-	border-top-left-radius: 18px;
-	border-top-right-radius: 18px;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
-	height: 200px;
-	min-height: 200px;
-	max-height: 200px;
-	background: #f3f3f3;
+.custom-combobox:focus {
+	border-color: #0b5ed7;
+	outline: none;
+	background-color: #fff;
 }
-.favourite-tour-card .card-body {
-	padding: 20px 24px 18px 24px;
-	display: flex;
-	flex-direction: column;
-	flex: 1 1 auto;
-	border-top: none;
+.custom-combobox option {
+	color: #636465ff;
 }
-.favourite-tour-card .card-title {
-	font-size: 1.15rem;
-	font-weight: bold;
-	margin-bottom: 8px;
-	min-height: 2.8em;
-	max-height: 2.8em;
-	line-height: 1.4em;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	text-overflow: ellipsis;
-	white-space: normal;
-}
-.favourite-tour-card .card-price {
-	color: #e53935;
-	font-weight: bold;
-	margin-top: 16px;
-	font-size: 1.1rem;
-	letter-spacing: 0.5px;
-	border-top: 1px solid #eee;
-	padding-top: 12px;
-}
+
 .detail-booking-title {
 	color: #636465ff !important;
 	font-weight: bold !important;
@@ -104,7 +77,12 @@
 .detail-booking-table th {
 	padding-top: 18px !important;
 	padding-bottom: 18px !important;
-	padding-left: 24px !important;
-	padding-right: 24px !important;
+	padding-left: 36px !important;
+	padding-right: 36px !important;
 	vertical-align: middle !important;
+	border-bottom: 1px solid #e0e4ea !important;
+}
+.detail-booking-table tr:last-child td,
+.detail-booking-table tr:last-child th {
+	border-bottom: none !important;
 }

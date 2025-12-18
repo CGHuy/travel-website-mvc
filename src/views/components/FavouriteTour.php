@@ -14,6 +14,7 @@ include __DIR__ . '/../partials/menu.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/AppStyle.css">
     <link rel="stylesheet" href="css/SettingAccount.css">
+    <link rel="stylesheet" href="css/TrangChu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 
@@ -29,8 +30,10 @@ include __DIR__ . '/../partials/menu.php';
                 <div class="row g-4">
                     <?php if (!empty($favoriteTours)): ?>
                         <?php foreach ($favoriteTours as $tour): ?>
-                            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                                <div class="card h-100 favourite-tour-card">
+                            <div class="col-12 col-lg-4">
+                                <div class="card h-100 position-relative">
+
+
                                     <?php if (!empty($tour['cover_image'])): ?>
                                         <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
                                             class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
@@ -38,8 +41,8 @@ include __DIR__ . '/../partials/menu.php';
                                         <img src="/web_du_lich/public/images/no-image.png" class="card-img-top" alt="No image">
                                     <?php endif; ?>
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
-                                        <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
+                                        <h5 class="card-title "><?= htmlspecialchars($tour['name']) ?></h5>
+                                        <p class="card-text "><?= htmlspecialchars($tour['description']) ?></p>
                                         <div class="card-price"><b>Giá:</b> <span
                                                 class="hightlight_price"><?= number_format($tour['price_default']) ?> VNĐ</span>
                                         </div>

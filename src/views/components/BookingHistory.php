@@ -33,6 +33,17 @@ include __DIR__ . '/../partials/menu.php';
                 </div>
                 <div class="card-body">
                     <form method="post" action="<?= route('settinguser.bookingHistory'); ?>">
+                        <div class="d-flex justify-content-end mb-3">
+                            <div class="d-flex align-items-center" style="gap: 10px;">
+                                <label for="" style="margin-bottom:0;">Sắp xếp</label>
+                                <select name="sort" class="custom-combobox">
+                                    <option value="">Tất cả</option>
+                                    <option value="status-warning">Chờ xác nhận</option>
+                                    <option value="status-success">Đã xác nhận</option>
+                                    <option value="status-danger">Đã hủy</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-container">
                             <div class="table-wrapper">
                                 <table class="custom-table">
@@ -46,7 +57,6 @@ include __DIR__ . '/../partials/menu.php';
                                             <th>Trạng Thái</th>
                                             <th>Ngày Đặt</th>
                                             <th></th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,7 +89,6 @@ include __DIR__ . '/../partials/menu.php';
                                                             Xem chi tiết
                                                         </a>
                                                     </td>
-                                                    </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
@@ -88,13 +97,13 @@ include __DIR__ . '/../partials/menu.php';
                             </div>
                         </div>
                         <!-- Form đã được loại bỏ, không cần thiết cho nút xem chi tiết -->
+                    </form>
                 </div>
             </div>
+
+
+
         </div>
-
-
-
-    </div>
 
 
 
