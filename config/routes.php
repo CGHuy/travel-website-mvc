@@ -10,4 +10,7 @@ return [
     'settinguser.favoriteTour' => ['controller' => 'SettingUserController', 'action' => 'favoriteTour'],
     'settinguser.updateFavoriteTour' => ['controller' => 'SettingUserController', 'action' => 'updateFavoriteTour'],
 
+    'ListTour.index' => ['controller' => 'ListTourController', 'action' => 'index'],
+    'ListTour.details' => ['controller' => 'ListTourController', 'action' => 'details'],
+    'BookingTour.index' => ['controller' => 'BookingTourController', 'action' => 'index'],
 ];
