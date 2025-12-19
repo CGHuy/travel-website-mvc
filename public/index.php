@@ -42,14 +42,20 @@ $tours = $tourModel->getAll();
         <div id="carouselTourCards" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php if (!empty($tours)): ?>
-                    <?php foreach (array_chunk($tours, 3) as $idx => $tourChunk): ?>
+                    <?php foreach (array_chunk($tours, 4) as $idx => $tourChunk): ?>
                         <div class="carousel-item <?= $idx === 0 ? 'active' : '' ?>">
-                            <div class="row g-5">
+                            <div class="row g-3">
                                 <?php foreach ($tourChunk as $tour): ?>
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-12 col-md-6 col-lg-3">
                                         <div class="card h-100">
                                             <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
                                                 class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
+                                            <div class="card-badges">
+                                                <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
+                                                    <?= htmlspecialchars($tour['location']) ?></span>
+                                                <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
+                                                    <?= htmlspecialchars($tour['duration']) ?></span>
+                                            </div>
                                             <div class="card-body">
                                                 <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
                                                 <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
