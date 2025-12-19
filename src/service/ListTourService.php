@@ -131,5 +131,21 @@ class ListTourService
         }
         return $filtered;
     }
+
+    public function getReviewsWithUserByTourId($tour_id)
+    {
+        $db = new Database();
+        $conn = $db->getConnection();
+        $sql = "SELECT r.*, u.fullname as user_name FROM reviews r INNER JOIN users u ON r.user_id = u.id WHERE r.tour_id = ? ORDER BY r.created_at DESC";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $tour_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $reviews = [];
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = $row;
+        }
+        return $reviews;
+    }
 }
 

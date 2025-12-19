@@ -61,8 +61,8 @@ class ListTourController
         $tourItineraries = $this->tourItineraryModel->getByTourIdForListTour($id);
         // Lấy dịch vụ của tour qua service
         $tourServices = $this->listTourService->getServicesByTourId($id);
-        // Lấy review của tour trực tiếp từ model
-        $tourReviews = $this->reviewModel->getByTourIdForListTour($id);
+        // Lấy review của tour (join user) từ service
+        $tourReviews = $this->listTourService->getReviewsWithUserByTourId($id);
         // Lấy ảnh của tour trực tiếp từ model
         $tourImages = $this->tourImageModel->getImagesByTourIdForListTour($id);
         if (!$tour) {

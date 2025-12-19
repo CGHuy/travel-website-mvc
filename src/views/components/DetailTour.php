@@ -164,8 +164,7 @@ include __DIR__ . '/../partials/menu.php';
                             <?php foreach ($tourReviews as $review): ?>
                                 <div class="d-flex align-items-start gap-3 p-3 bg-white rounded shadow-sm">
                                     <img alt="Avatar of user review" class="rounded-circle"
-                                        style="width:40px;height:40px;object-fit:cover;"
-                                        src="<?php echo !empty($review['avatar']) ? htmlspecialchars($review['avatar']) : 'https://ui-avatars.com/api/?name=' . urlencode($review['user_name'] ?? 'User') . '&background=0D6EFD&color=fff'; ?>">
+                                        style="width:40px;height:40px;object-fit:cover;" src="images/image.png">
                                     <div class="flex-grow-1">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <p class="fw-semibold mb-1" style="color:#222;font-size:1.05rem;">
