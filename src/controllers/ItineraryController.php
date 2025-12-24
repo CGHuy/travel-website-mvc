@@ -29,9 +29,7 @@ class ItineraryController {
         include __DIR__ . '/../views/admin/admin_layout.php';
     }
 
-    /**
-     * Action mới: Trả về HTML form để load vào modal
-     */
+    // trả về HTML form để load vào modal
     public function getForm() {
         $tour_id = isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
 
@@ -46,7 +44,7 @@ class ItineraryController {
             return;
         }
 
-        // Lấy itineraries - chỉ có description trong database
+        // Lấy itineraries từ database
         $itineraries = $this->itineraryModel->getByTourId($tour_id);
 
         // Include view để render HTML form
@@ -54,32 +52,8 @@ class ItineraryController {
     }
 
     /**
-     * Action cũ: Trả về JSON (giữ lại để tương thích ngược)
+     * Trang chỉnh sửa lịch trình (dạng full page - ít dùng)
      */
-    public function getData() {
-        header('Content-Type: application/json');
-        
-        $tour_id = isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
-
-        if ($tour_id === 0) {
-            echo json_encode(['error' => 'Invalid Tour ID']);
-            return;
-        }
-
-        $tour = $this->tourModel->getById($tour_id);
-        if (!$tour) {
-            echo json_encode(['error' => 'Tour not found']);
-            return;
-        }
-
-        $itineraries = $this->itineraryModel->getByTourId($tour_id);
-
-        echo json_encode([
-            'tour' => $tour,
-            'itineraries' => $itineraries
-        ]);
-    }
-
     public function edit() {
         $tour_id = isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
         $layout = isset($_GET['layout']) ? $_GET['layout'] : 'full';
@@ -123,7 +97,6 @@ class ItineraryController {
             // Thêm itineraries mới
             if (!empty($days)) {
                 foreach ($days as $day) {
-                    // Chỉ lưu description vào database
                     $description = isset($day['description']) ? trim($day['description']) : '';
                     $day_number = isset($day['day_number']) ? intval($day['day_number']) : 1;
                     
@@ -132,7 +105,7 @@ class ItineraryController {
                         continue;
                     }
                     
-                    // Gọi model create - chỉ cần tour_id, day_number, description
+                    // Lưu vào database
                     $this->itineraryModel->create(
                         $tour_id,
                         $day_number,

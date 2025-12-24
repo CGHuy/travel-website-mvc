@@ -1,7 +1,6 @@
-<div class="card-header d-flex justify-content-between align-items-center">
+<div class="card-header d-flex justify-content-between align-items-center p-0 px-4">
     <div>
         <h5 class="card-title">Quản lý Lịch trình</h5>
-        <p style="color: #636465ff;">Danh sách các lịch trình tour</p>
     </div>
 </div>
 <div class="card-body">
@@ -38,19 +37,14 @@
                 <h5 class="modal-title" id="itineraryModalLabel">Lịch trình Tour</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <!-- Content will be loaded here via AJAX from FormItinerary.php -->
+            <div class="modal-body pb-0">
+                <!-- Form sẽ được load động từ server -->
                 <div class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <p class="mt-2">Đang tải...</p>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Đóng
-                </button>
             </div>
         </div>
     </div>
