@@ -1,6 +1,13 @@
 <?php
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+$currentUser = $_SESSION['user_id'] ?? null;
+if (!$currentUser) {
+    $redirectUrl = $_SERVER['REQUEST_URI'];
+    header('Location: /web_du_lich/public/login.php?redirect=' . urlencode($redirectUrl));
+    exit;
+}
 include __DIR__ . '/../partials/menu.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -31,15 +38,18 @@ include __DIR__ . '/../partials/menu.php';
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label for="contact_name" class="form-label">Tên người liên hệ</label>
-                                    <input type="text" class="form-control" id="contact_name" name="contact_name" required>
+                                    <input type="text" class="form-control" id="contact_name" name="contact_name" required
+                                        value="<?php echo isset($userInfo['fullname']) ? htmlspecialchars($userInfo['fullname']) : ''; ?>">
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="contact_phone" class="form-label">Số điện thoại liên hệ</label>
-                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" required>
+                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" required
+                                        value="<?php echo isset($userInfo['phone']) ? htmlspecialchars($userInfo['phone']) : ''; ?>">
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="contact_email" class="form-label">Email liên hệ</label>
-                                    <input type="email" class="form-control" id="contact_email" name="contact_email" required>
+                                    <input type="email" class="form-control" id="contact_email" name="contact_email" required
+                                        value="<?php echo isset($userInfo['email']) ? htmlspecialchars($userInfo['email']) : ''; ?>">
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="note" class="form-label">Ghi chú</label>
@@ -93,10 +103,10 @@ include __DIR__ . '/../partials/menu.php';
                 </form>
             </main>
             <div class="col-5">
-                <div class="card p-4 tour-info" style="align-self: start; border: none; box-shadow: none;font-family: 'Lexend Deca', sans-serif;">
+                <div class="card p-4 tour-info" style="align-self: start; border: none; box-shadow: none;font-family: 'Lexend Deca', sans-serif;" data-price-per-person="<?php echo htmlspecialchars($tour['price_default'] ?? 0); ?>">
                     <?php if (!empty($tour)): ?>
                         <div class="w-100 d-flex flex-column align-items-center" style="margin:auto;">
-                            <div style="width:75%;height:35vh;overflow:hidden;border-radius:12px;margin-left:auto;margin-right:auto;">
+                            <div style="width:75%;height:25vh;overflow:hidden;border-radius:12px;margin-left:auto;margin-right:auto;">
                                 <?php
                                 if (!empty($tour['cover_image'])) {
                                     $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -116,10 +126,31 @@ include __DIR__ . '/../partials/menu.php';
                                 <div class="fw-bold my-1" style="font-size:1.4rem;line-height:1.3;"><?php echo htmlspecialchars($tour['name']); ?></div>
                                 <div><strong>Mã Tour:</strong> <?php echo htmlspecialchars($tour['tour_code']); ?></div>
                                 <div><strong>Thời lượng:</strong> <?php echo htmlspecialchars($tour['duration']); ?></div>
-                                <div><strong>Đơn giá:</strong> <span class="text-success fw-bold"><?php echo number_format($tour['price_default'], 0, ',', '.'); ?>đ/Người</span></div>
+                                <div><strong>Đơn giá:</strong> <span class="text-primary fw-bold"><?php echo number_format($tour['price_default'], 0, ',', '.'); ?>đ/Người</span></div>
                             </div>
                         </div>
                         <hr>
+                        <div class="text-start" style="width:75%;margin-left:auto;margin-right:auto;">
+                            <div class="mb-2"><strong>Số lượng người:</strong> <span id="tour-quantity" class="text-primary fw-bold">1</span></div>
+                            <div class="mb-2"><strong>Chi phí tour:</strong> <span id="tour-cost" class="text-primary fw-bold"><?php echo number_format($tour['price_default'], 0, ',', '.'); ?>đ</span></div>
+                            <div><strong>Tổng phí di chuyển:</strong> <span id="tour-moving-total" class="text-primary fw-bold">Chưa chọn điểm khởi hành</span></div>
+                        </div>
+                        <hr>
+                        <div class="text-start" style="width:75%;margin-left:auto;margin-right:auto;">
+                            <div class="row g-2 align-items-center">
+                                <div class="col-12 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold" style="font-size:1.1rem;">Tổng tiền:</span>
+                                        <span id="tour-total-amount" class="fw-bold text-danger" style="font-size:1.3rem;">0đ</span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" form="booking-form" class="btn btn-primary w-100 fw-bold" style="font-size:1.1rem;">
+                                        <i class="fa fa-check-circle me-2"></i>Đặt tour ngay
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Các thông tin khác sẽ hiển thị dọc phía dưới -->
                     <?php else: ?>
                         <div class="text-danger text-start">Không tìm thấy thông tin tour.</div>

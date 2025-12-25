@@ -1,6 +1,5 @@
 <?php
 include __DIR__ . '/../partials/menu.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="vi">
