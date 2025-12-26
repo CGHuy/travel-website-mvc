@@ -4,6 +4,7 @@ return [
     'ListTour.details' => ['controller' => 'ListTourController', 'action' => 'details'],
     'ListTour.addToWishlist' => ['controller' => 'ListTourController', 'action' => 'addToWishlist'],
     'BookingTour.index' => ['controller' => 'BookingTourController', 'action' => 'index'],
+    'BookingTour.book' => ['controller' => 'BookingTourController', 'action' => 'book'],
     'settinguser.edit' => ['controller' => 'SettingUserController', 'action' => 'edit'],
     'settinguser.update' => ['controller' => 'SettingUserController', 'action' => 'update'],
     'settinguser.changePassword' => ['controller' => 'SettingUserController', 'action' => 'changePassword'],

@@ -21,6 +21,15 @@ include __DIR__ . '/../partials/menu.php';
 
 <body>
     <div class="container-fluid my-4">
+        <?php if (isset($_SESSION['booking_success']) && $_SESSION['booking_success']): ?>
+            <div class="alert alert-success alert-dismissible fade show mx-5 mb-3" role="alert">
+                <i class="fa fa-check-circle me-2"></i>
+                <strong> <?= htmlspecialchars($_SESSION['booking_message'] ?? 'Đặt tour thành công!') ?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['booking_success'], $_SESSION['booking_message']); ?>
+        <?php endif; ?>
+
         <div class="d-flex gap-4 px-5">
             <?php
             $currentPage = 'booking-history';
