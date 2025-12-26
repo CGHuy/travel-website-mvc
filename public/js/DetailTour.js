@@ -10,4 +10,16 @@ window.addEventListener("DOMContentLoaded", function () {
 		.forEach(function (section) {
 			section.style.scrollMarginTop = scrollMargin + "px";
 		});
+
+	// Xử lý click wish-list: nếu chưa đăng nhập thì chuyển hướng login
+	var wishBtn = document.getElementById("wish-list");
+	if (wishBtn) {
+		wishBtn.addEventListener("click", function (e) {
+			if (!isLoggedIn) {
+				e.preventDefault();
+				window.location.href = loginUrl;
+			}
+			// Nếu đã đăng nhập thì xử lý wishlist như bình thường
+		});
+	}
 });

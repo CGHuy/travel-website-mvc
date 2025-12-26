@@ -2,6 +2,7 @@
 return [
     'ListTour.index' => ['controller' => 'ListTourController', 'action' => 'index'],
     'ListTour.details' => ['controller' => 'ListTourController', 'action' => 'details'],
+    'ListTour.addToWishlist' => ['controller' => 'ListTourController', 'action' => 'addToWishlist'],
     'BookingTour.index' => ['controller' => 'BookingTourController', 'action' => 'index'],
     'settinguser.edit' => ['controller' => 'SettingUserController', 'action' => 'edit'],
     'settinguser.update' => ['controller' => 'SettingUserController', 'action' => 'update'],
