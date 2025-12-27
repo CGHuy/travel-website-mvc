@@ -7,7 +7,7 @@ if (!$currentUser) {
     header('Location: /web_du_lich/public/login.php?redirect=' . urlencode($redirectUrl));
     exit;
 }
-include __DIR__ . '/../partials/menu.php';
+include __DIR__ . '/../partials/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">

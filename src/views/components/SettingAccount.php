@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../partials/menu.php';
+include __DIR__ . '/../partials/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
