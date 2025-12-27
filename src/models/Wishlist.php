@@ -33,6 +33,16 @@ class Wishlist
         $stmt->bind_param("ii", $user_id, $tour_id);
         return $stmt->execute();
     }
+
+    // Tìm wishlist theo user_id và tour_id
+    public function findWishlistForFormByUserIdAndTourId($user_id, $tour_id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM wishlist WHERE user_id = ? AND tour_id = ?");
+        $stmt->bind_param("ii", $user_id, $tour_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
     public function delete($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM wishlist WHERE id = ?");

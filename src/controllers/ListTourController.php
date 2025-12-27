@@ -4,6 +4,7 @@ require_once __DIR__ . '/../service/ListTourService.php';
 require_once __DIR__ . '/../models/TourImage.php';
 require_once __DIR__ . '/../models/TourItinerary.php';
 require_once __DIR__ . '/../models/Review.php';
+require_once __DIR__ . '/../models/Wishlist.php';
 
 
 class ListTourController
@@ -13,6 +14,7 @@ class ListTourController
     private $tourImageModel;
     private $tourItineraryModel;
     private $reviewModel;
+    private $wishlistModel;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class ListTourController
         $this->tourImageModel = new TourImage();
         $this->tourItineraryModel = new TourItinerary();
         $this->reviewModel = new Review();
+        $this->wishlistModel = new Wishlist();
     }
 
     public function index()
@@ -71,5 +74,33 @@ class ListTourController
             exit;
         }
         return include __DIR__ . '/../views/components/DetailTour.php';
+    }
+
+    public function addToWishlist()
+    {
+        if (session_status() === PHP_SESSION_NONE)
+            session_start();
+        $userId = $_SESSION['user_id'] ?? null;
+        $tour_id = isset($_POST['tour_id']) ? (int) $_POST['tour_id'] : 0;
+        $message = '';
+        $success = false;
+        if (!$userId) {
+            $message = 'Bạn cần đăng nhập để thêm vào yêu thích.';
+        } elseif (!$tour_id) {
+            $message = 'Thiếu thông tin tour.';
+        } else {
+            $exist = $this->wishlistModel->findWishlistForFormByUserIdAndTourId($userId, $tour_id);
+            if ($exist) {
+                $message = 'Tour đã có trong danh sách yêu thích.';
+            } else {
+                $this->wishlistModel->create($userId, $tour_id);
+                $message = 'Đã thêm vào danh sách yêu thích!';
+                $success = true;
+            }
+        }
+        // Redirect về lại trang chi tiết tour, truyền thông báo qua query string
+        $redirectUrl = route('ListTour.details', ['id' => $tour_id, 'wishlist_message' => urlencode($message), 'wishlist_success' => $success ? '1' : '0']);
+        header('Location: ' . $redirectUrl);
+        exit;
     }
 }

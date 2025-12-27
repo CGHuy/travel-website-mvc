@@ -1,6 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
 include __DIR__ . '/../partials/menu.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -210,8 +212,12 @@ include __DIR__ . '/../partials/menu.php';
                     <a href="<?php echo route('BookingTour.index', ['tour_id' => $tour['id']]); ?>"
                         class="btn btn-primary">Đặt
                         Tour</a>
-                    <button class="btn btn-secondary"><i class="fa-solid fa-heart"
-                            style="color: #f40808ff;"></i></button>
+                    <form method="POST" action="<?php echo route('ListTour.addToWishlist'); ?>" style="display:inline;">
+                        <input type="hidden" name="tour_id" value="<?php echo $tour['id']; ?>">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fa-solid fa-heart" style="color: #f40808ff;"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -231,6 +237,57 @@ include __DIR__ . '/../partials/footer.php';
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    var isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+    var loginUrl = "/web_du_lich/public/login.php?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
+    var wishlistMessage = '<?php echo addslashes(isset($_GET['wishlist_message']) ? urldecode($_GET['wishlist_message']) : ''); ?>';
+    var wishlistSuccess = <?php echo (isset($_GET['wishlist_success']) && $_GET['wishlist_success'] === '1') ? 'true' : 'false'; ?>;
+</script>
+
 <script src="js/DetailTour.js"></script>
+
+<?php
+// Đảm bảo luôn có biến để tránh warning
+$wishlist_message = isset($wishlist_message) ? $wishlist_message : (isset($_GET['wishlist_message']) ? urldecode($_GET['wishlist_message']) : '');
+$wishlist_success = isset($wishlist_success) ? $wishlist_success : (isset($_GET['wishlist_success']) && $_GET['wishlist_success'] === '1');
+?>
+<!-- Modal cho thông báo wishlist -->
+<div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="wishlistModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header <?php echo $wishlist_success ? 'bg-primary text-white' : 'bg-warning'; ?>">
+                <h5 class="modal-title<?php echo $wishlist_success ? ' text-white' : ''; ?>" id="wishlistModalLabel">
+                    <?php echo $wishlist_success ? 'Thành công!' : 'Thông báo'; ?>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p><?php echo htmlspecialchars($wishlist_message); ?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (wishlistMessage) {
+            var wishlistModalEl = document.getElementById('wishlistModal');
+            var wishlistModal = new bootstrap.Modal(wishlistModalEl);
+            wishlistModal.show();
+            wishlistModalEl.addEventListener('hidden.bs.modal', function () {
+                // Xóa các tham số wishlist_message và wishlist_success khỏi URL
+                var url = new URL(window.location.href);
+                url.searchParams.delete('wishlist_message');
+                url.searchParams.delete('wishlist_success');
+                window.history.replaceState({}, document.title, url.pathname + url.search);
+            });
+        }
+    });
+</script>
 
 </html>
