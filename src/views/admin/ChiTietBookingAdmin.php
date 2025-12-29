@@ -1,41 +1,20 @@
-<?php
-// Lấy dữ liệu từ controller
-$bookingDetail = $bookingDetail ?? [];
+<?php $bookingDetail = $bookingDetail ?? [];
+$currentPage = 'booking'; ?>
 
-// Chuẩn hóa dữ liệu
-if (!empty($bookingDetail)) {
-    // Lấy thông tin tour từ TourDeparture
-    require_once __DIR__ . '/../../models/TourDeparture.php';
-    require_once __DIR__ . '/../../models/Tour.php';
 
-    $tourDeparture = new TourDeparture();
-    $tourModel = new Tour();
+<link rel="stylesheet" href="css/ChiTietBookingAdmin.css">
 
-    $departure = $tourDeparture->getById($bookingDetail['departure_id'] ?? null);
-    $tour = $tourModel->getById($departure['tour_id'] ?? null);
-
-    $bookingDetail['tour_code'] = $tour['code'] ?? 'N/A';
-    $bookingDetail['tour_name'] = $tour['name'] ?? 'N/A';
-    $bookingDetail['departure_date'] = $departure['departure_date'] ?? $bookingDetail['created_at'] ?? '';
-    $bookingDetail['departure_location'] = $departure['departure_location'] ?? 'N/A';
-    $bookingDetail['booking_status'] = $bookingDetail['status'] ?? 'pending';
-    $bookingDetail['payment_status'] = $bookingDetail['payment_status'] ?? 'unpaid';
-}
-?>
-
-<div class="card-header d-flex justify-content-between align-items-center">
-    <div>
-        <h5 class="card-title">Chi Tiết Booking</h5>
-        <p style="color: #636465ff;">Thông tin chi tiết về chuyến đi của bạn đã đặt</p>
-    </div>
+<div class="card-header">
+    <h2 class="card-title">CHI TIẾT BOOKING</h2>
+    <p style="color: #636465ff;">Thông tin chi tiết về chuyến đi của bạn đã đặt</p>
 </div>
-<div class="card-body">
-    <div class="table-responsive">
+<div class="table-responsive">
+    <form method="post">
         <table class="table align-middle detail-booking-table">
             <tbody>
                 <?php if (empty($bookingDetail)): ?>
                     <tr>
-                        <td colspan="2" class="text-center">Không tìm thấy booking</td>
+                        <td colspan="9" class="text-center">Không tìm thấy booking</td>
                     </tr>
                 <?php else: ?>
                     <tr>
@@ -45,20 +24,20 @@ if (!empty($bookingDetail)) {
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Họ và tên</td>
-                        <td><?= htmlspecialchars($bookingDetail['contact_name'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['contact_name']) ?></td>
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Email</td>
-                        <td><?= htmlspecialchars($bookingDetail['contact_email'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['contact_email']) ?></td>
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Số điện thoại</td>
-                        <td><?= htmlspecialchars($bookingDetail['contact_phone'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['contact_phone']) ?></td>
                     </tr>
 
                     <tr>
                         <th rowspan="8">
-                            <h6 style="color: #1a75c4ff;">CHI TIẾT BOOKING</h6>
+                            <h6 style="color: #1a75c4ff;">CHI TIẾT BOOKING </h6>
                         </th>
                     </tr>
 
@@ -80,20 +59,19 @@ if (!empty($bookingDetail)) {
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Ngày khởi hành</td>
-                        <td><?= !empty($bookingDetail['departure_date']) ? date('d/m/Y', strtotime($bookingDetail['departure_date'])) : 'N/A' ?>
-                        </td>
+                        <td><?= date('d/m/Y', strtotime($bookingDetail['departure_date'])) ?></td>
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Số lượng</td>
-                        <td><?= htmlspecialchars($bookingDetail['quantity'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['quantity']) ?></td>
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Địa điểm khởi hành</td>
-                        <td><?= htmlspecialchars($bookingDetail['departure_location'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['departure_location']) ?></td>
                     </tr>
                     <tr>
                         <td class="detail-booking-title">Ghi chú</td>
-                        <td><?= htmlspecialchars($bookingDetail['note'] ?? 'Không có') ?></td>
+                        <td><?= htmlspecialchars($bookingDetail['note']) ?></td>
                     </tr>
 
                     <tr class="detail-payment-header">
@@ -101,10 +79,12 @@ if (!empty($bookingDetail)) {
                             <h6 style="color: #1a75c4ff;">THÔNG TIN THANH TOÁN</h6>
                         </th>
                     </tr>
+
+                    </tr>
                     <tr>
                         <td class="detail-booking-title">Tổng giá</td>
                         <td style="color: red; font-weight: bold;">
-                            <?= number_format($bookingDetail['total_price'] ?? 0, 0, ',', '.') ?> đ
+                            <?= number_format($bookingDetail['total_price'], 0, ',', '.') ?> đ
                         </td>
                     </tr>
                     <tr>
@@ -116,7 +96,7 @@ if (!empty($bookingDetail)) {
                                 'confirmed' => '<span class="badge bg-success">Đã xác nhận</span>',
                                 'cancelled' => '<span class="badge bg-danger">Đã hủy</span>'
                             ];
-                            echo $statusBadge[$bookingDetail['booking_status']] ?? '<span class="badge bg-secondary">Không rõ</span>';
+                            echo $statusBadge[$bookingDetail['booking_status']] ?? $bookingDetail['booking_status'];
                             ?>
                         </td>
                     </tr>
@@ -124,17 +104,17 @@ if (!empty($bookingDetail)) {
                         <td class="detail-booking-title">Trạng thái thanh toán</td>
                         <td>
                             <?php
-                            $paymentBadge = [
+                            $statusBadge = [
                                 'unpaid' => '<span class="badge bg-warning">Chưa thanh toán</span>',
                                 'paid' => '<span class="badge bg-success">Đã thanh toán</span>',
                                 'refunded' => '<span class="badge bg-danger">Đã hoàn tiền</span>'
                             ];
-                            echo $paymentBadge[$bookingDetail['payment_status']] ?? '<span class="badge bg-secondary">Không rõ</span>';
+                            echo $statusBadge[$bookingDetail['payment_status']] ?? $bookingDetail['payment_status'];
                             ?>
                         </td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-    </div>
+    </form>
 </div>

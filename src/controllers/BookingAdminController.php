@@ -39,6 +39,25 @@ class BookingAdminController
 
         $bookingDetail = $this->bookingService->getDetail($id);
 
+        // Chuẩn hóa dữ liệu (moved from view)
+        if (!empty($bookingDetail)) {
+            require_once __DIR__ . '/../models/TourDeparture.php';
+            require_once __DIR__ . '/../models/Tour.php';
+
+            $tourDeparture = new TourDeparture();
+            $tourModel = new Tour();
+
+            $departure = $tourDeparture->getById($bookingDetail['departure_id'] ?? null);
+            $tour = $tourModel->getById($departure['tour_id'] ?? null);
+
+            $bookingDetail['tour_code'] = $tour['code'] ?? 'N/A';
+            $bookingDetail['tour_name'] = $tour['name'] ?? 'N/A';
+            $bookingDetail['departure_date'] = $departure['departure_date'] ?? $bookingDetail['created_at'] ?? '';
+            $bookingDetail['departure_location'] = $departure['departure_location'] ?? 'N/A';
+            $bookingDetail['booking_status'] = $bookingDetail['status'] ?? 'pending';
+            $bookingDetail['payment_status'] = $bookingDetail['payment_status'] ?? 'unpaid';
+        }
+
         ob_start();
         include __DIR__ . '/../views/admin/ChiTietBookingAdmin.php';
         $content = ob_get_clean();
