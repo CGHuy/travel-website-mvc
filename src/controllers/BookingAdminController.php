@@ -28,4 +28,20 @@ class BookingAdminController
         $content = ob_get_clean();
         include __DIR__ . '/../views/admin/admin_layout.php';
     }
+
+    public function detail()
+    {
+        $id = $_REQUEST['id'] ?? null;
+        if (!$id) {
+            header('Location: ' . route('BookingAdmin.index'));
+            exit;
+        }
+
+        $bookingDetail = $this->bookingService->getDetail($id);
+
+        ob_start();
+        include __DIR__ . '/../views/admin/ChiTietBookingAdmin.php';
+        $content = ob_get_clean();
+        include __DIR__ . '/../views/admin/admin_layout.php';
+    }
 }

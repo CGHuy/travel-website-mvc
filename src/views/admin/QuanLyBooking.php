@@ -66,7 +66,7 @@
                                     <td><?= date('d/m/Y H:i', strtotime($booking['created_at'] ?? $booking['booking_date'])) ?>
                                     </td>
                                     <td>
-                                        <a href="<?= route('admin.bookingDetail', ['id' => $booking['id']]); ?>"
+                                        <a href="<?= route('BookingAdmin.detail', ['id' => $booking['id']]); ?>"
                                             class="btn btn-primary btn-sm px-3">
                                             Xem chi tiết
                                         </a>
