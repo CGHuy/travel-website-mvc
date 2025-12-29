@@ -26,7 +26,9 @@
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Điểm đến</a>
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Về chúng tôi</a>
         <a class="text-decoration-none text-body fw-medium px-2 py-1" href="#">Liên hệ</a>
-        <a class="text-decoration-none text-body fw-medium px-2 py-1" href="<?= route('tour.index'); ?>">Admin</a>
+        <?php if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a class="text-decoration-none text-body fw-medium px-2 py-1" href="<?= route('tour.index'); ?>">Admin</a>
+        <?php endif; ?>
     </nav>
     <div class="d-flex align-items-center gap-2">
         <?php
@@ -50,6 +52,7 @@
                 style="width:40px; height:40px; cursor: pointer;" title="Thông tin cá nhân">
                 <img src="images/image.png" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
             </a>
+
         <?php endif; ?>
     </div>
 </header>

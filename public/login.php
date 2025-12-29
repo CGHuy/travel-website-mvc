@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db = new Database();
     $conn = $db->getConnection();
-    $stmt = $conn->prepare('SELECT id, email, password FROM users WHERE email = ? LIMIT 1');
+    $stmt = $conn->prepare('SELECT id, email, password, role FROM users WHERE email = ? LIMIT 1');
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user && $password === $user['password']) { // demo: plain text comparison (keep as-is for now)
         $_SESSION['user_id'] = $user['id'];
+        // store role for authorization checks in views
+        $_SESSION['role'] = $user['role'] ?? 'customer';
         header('Location: index.php');
         exit;
     } else {
