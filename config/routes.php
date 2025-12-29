@@ -13,7 +13,7 @@ return [
     'itinerary.save' => ['controller' => 'ItineraryController', 'action' => 'save'],
     'itinerary.delete' => ['controller' => 'ItineraryController', 'action' => 'delete'],
     'BookingAdmin.index' => ['controller' => 'BookingAdminController', 'action' => 'index'],
-    'admin.bookingDetail' => ['controller' => 'BookingAdminController', 'action' => 'detail'],
+    'BookingAdmin.detail' => ['controller' => 'BookingAdminController', 'action' => 'detail'],
     'service.index' => ['controller' => 'ServiceController', 'action' => 'index'],
 ];
 ?>
