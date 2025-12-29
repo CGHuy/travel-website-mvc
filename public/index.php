@@ -54,22 +54,25 @@ $toursMienNam = $tourModel->getByRegion('Miền Nam');
                             <div class="row g-3">
                                 <?php foreach ($tourChunk as $tour): ?>
                                     <div class="col-12 col-md-6 col-lg-3">
-                                        <div class="card h-100">
-                                            <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
-                                                class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
-                                            <div class="card-badges">
-                                                <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
-                                                    <?= htmlspecialchars($tour['location']) ?></span>
-                                                <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
-                                                    <?= htmlspecialchars($tour['duration']) ?></span>
+                                        <a href="<?= route('ListTour.details', ['id' => $tour['id']]) ?>"
+                                            class="text-decoration-none">
+                                            <div class="card h-100 tour-card">
+                                                <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
+                                                    class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
+                                                <div class="card-badges">
+                                                    <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
+                                                        <?= htmlspecialchars($tour['location']) ?></span>
+                                                    <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
+                                                        <?= htmlspecialchars($tour['duration']) ?></span>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
+                                                    <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
+                                                    <div class="card-price"><b>Giá:</b><span class="hightlight_price">
+                                                            <?= number_format($tour['price_default']) ?> VNĐ</span></div>
+                                                </div>
                                             </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
-                                                <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
-                                                <div class="card-price"><b>Giá:</b><span class="hightlight_price">
-                                                        <?= number_format($tour['price_default']) ?> VNĐ</span></div>
-                                            </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -109,22 +112,25 @@ $toursMienNam = $tourModel->getByRegion('Miền Nam');
                                     <div class="row g-3">
                                         <?php foreach ($tourChunk as $tour): ?>
                                             <div class="col-12 col-md-6 col-lg-3">
-                                                <div class="card h-100">
-                                                    <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
-                                                        class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
-                                                    <div class="card-badges">
-                                                        <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
-                                                            <?= htmlspecialchars($tour['location']) ?></span>
-                                                        <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
-                                                            <?= htmlspecialchars($tour['duration']) ?></span>
+                                                <a href="<?= route('ListTour.details', ['id' => $tour['id']]) ?>"
+                                                    class="text-decoration-none">
+                                                    <div class="card h-100 tour-card">
+                                                        <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
+                                                            class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
+                                                        <div class="card-badges">
+                                                            <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
+                                                                <?= htmlspecialchars($tour['location']) ?></span>
+                                                            <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
+                                                                <?= htmlspecialchars($tour['duration']) ?></span>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
+                                                            <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
+                                                            <div class="card-price"><b>Giá:</b><span class="hightlight_price">
+                                                                    <?= number_format($tour['price_default']) ?> VNĐ</span></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
-                                                        <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
-                                                        <div class="card-price"><b>Giá:</b><span class="hightlight_price">
-                                                                <?= number_format($tour['price_default']) ?> VNĐ</span></div>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -160,22 +166,25 @@ $toursMienNam = $tourModel->getByRegion('Miền Nam');
                                     <div class="row g-3">
                                         <?php foreach ($tourChunk as $tour): ?>
                                             <div class="col-12 col-md-6 col-lg-3">
-                                                <div class="card h-100">
-                                                    <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
-                                                        class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
-                                                    <div class="card-badges">
-                                                        <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
-                                                            <?= htmlspecialchars($tour['location']) ?></span>
-                                                        <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
-                                                            <?= htmlspecialchars($tour['duration']) ?></span>
+                                                <a href="<?= route('ListTour.details', ['id' => $tour['id']]) ?>"
+                                                    class="text-decoration-none">
+                                                    <div class="card h-100 tour-card">
+                                                        <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
+                                                            class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
+                                                        <div class="card-badges">
+                                                            <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
+                                                                <?= htmlspecialchars($tour['location']) ?></span>
+                                                            <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
+                                                                <?= htmlspecialchars($tour['duration']) ?></span>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
+                                                            <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
+                                                            <div class="card-price"><b>Giá:</b><span class="hightlight_price">
+                                                                    <?= number_format($tour['price_default']) ?> VNĐ</span></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
-                                                        <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
-                                                        <div class="card-price"><b>Giá:</b><span class="hightlight_price">
-                                                                <?= number_format($tour['price_default']) ?> VNĐ</span></div>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -211,22 +220,25 @@ $toursMienNam = $tourModel->getByRegion('Miền Nam');
                                     <div class="row g-3">
                                         <?php foreach ($tourChunk as $tour): ?>
                                             <div class="col-12 col-md-6 col-lg-3">
-                                                <div class="card h-100">
-                                                    <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
-                                                        class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
-                                                    <div class="card-badges">
-                                                        <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
-                                                            <?= htmlspecialchars($tour['location']) ?></span>
-                                                        <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
-                                                            <?= htmlspecialchars($tour['duration']) ?></span>
+                                                <a href="<?= route('ListTour.details', ['id' => $tour['id']]) ?>"
+                                                    class="text-decoration-none">
+                                                    <div class="card h-100 tour-card">
+                                                        <img src="data:image/jpeg;base64,<?= base64_encode($tour['cover_image']) ?>"
+                                                            class="card-img-top" alt="<?= htmlspecialchars($tour['name']) ?>">
+                                                        <div class="card-badges">
+                                                            <span class="badge bg-info"><i class="fa-solid fa-map-location-dot"></i>
+                                                                <?= htmlspecialchars($tour['location']) ?></span>
+                                                            <span class="badge bg-primary"><i class="fa-solid fa-calendar-days"></i>
+                                                                <?= htmlspecialchars($tour['duration']) ?></span>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
+                                                            <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
+                                                            <div class="card-price"><b>Giá:</b><span class="hightlight_price">
+                                                                    <?= number_format($tour['price_default']) ?> VNĐ</span></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= htmlspecialchars($tour['name']) ?></h5>
-                                                        <p class="card-text"><?= htmlspecialchars($tour['description']) ?></p>
-                                                        <div class="card-price"><b>Giá:</b><span class="hightlight_price">
-                                                                <?= number_format($tour['price_default']) ?> VNĐ</span></div>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
