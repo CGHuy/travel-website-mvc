@@ -45,7 +45,8 @@ class BookingAdminService
             $booking['booking_code'] = $booking['booking_code'] ?? 'BK' . str_pad($booking['id'], 5, '0', STR_PAD_LEFT);
             $booking['user_name'] = $booking['customer_name'] ?? 'N/A';
             $booking['tour_name'] = $booking['tour_name'] ?? 'N/A';
-            $booking['departure_date'] = $booking['departure_date'] ?? $booking['booking_date'] ?? '';
+            $departure = $this->tourDepartureModel->getById($booking['departure_id']);
+            $booking['departure_date'] = $departure['departure_date'] ?? '';
             $booking['total_price'] = $booking['total_price'] ?? 0;
             $booking['booking_status'] = $booking['status'] ?? '';
             $booking['created_at'] = $booking['created_at'] ?? date('Y-m-d H:i:s');
