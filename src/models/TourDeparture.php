@@ -27,16 +27,16 @@ class TourDeparture
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function create($tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status = 'open')
+    public function create($tour_id, $departure_location, $departure_date, $price_moving, $price_moving_child, $seats_total, $seats_available, $status = 'open')
     {
-        $stmt = $this->conn->prepare("INSERT INTO tour_departures (tour_id, departure_location, departure_date, price_moving, seats_total, seats_available, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issdiis", $tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status);
+        $stmt = $this->conn->prepare("INSERT INTO tour_departures (tour_id, departure_location, departure_date, price_moving, price_moving_child, seats_total, seats_available, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("issddiis", $tour_id, $departure_location, $departure_date, $price_moving, $price_moving_child, $seats_total, $seats_available, $status);
         return $stmt->execute();
     }
-    public function update($id, $tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status)
+    public function update($id, $tour_id, $departure_location, $departure_date, $price_moving, $price_moving_child, $seats_total, $seats_available, $status)
     {
-        $stmt = $this->conn->prepare("UPDATE tour_departures SET tour_id = ?, departure_location = ?, departure_date = ?, price_moving = ?, seats_total = ?, seats_available = ?, status = ? WHERE id = ?");
-        $stmt->bind_param("issdiisi", $tour_id, $departure_location, $departure_date, $price_moving, $seats_total, $seats_available, $status, $id);
+        $stmt = $this->conn->prepare("UPDATE tour_departures SET tour_id = ?, departure_location = ?, departure_date = ?, price_moving = ?, price_moving_child = ?, seats_total = ?, seats_available = ?, status = ? WHERE id = ?");
+        $stmt->bind_param("issddiisi", $tour_id, $departure_location, $departure_date, $price_moving, $price_moving_child, $seats_total, $seats_available, $status, $id);
         return $stmt->execute();
     }
     public function delete($id)
