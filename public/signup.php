@@ -70,36 +70,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Password toggle
-        (function(){
-            const toggle = document.getElementById('togglePassword');
-            const input = document.getElementById('passwordInput');
-            toggle?.addEventListener('click', function(){
-                if(input.type === 'password'){
-                    input.type = 'text';
-                    toggle.textContent = 'Ẩn';
-                } else {
-                    input.type = 'password';
-                    toggle.textContent = 'Hiện';
-                }
-            });
-
-            // Bootstrap form validation
-            (function () {
-                'use strict'
-                const forms = document.querySelectorAll('.needs-validation')
-                Array.prototype.slice.call(forms).forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-            })()
-        })();
-    </script>
+    <script src="js/signup.js"></script>
 </body>
 </html>
