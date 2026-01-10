@@ -1,16 +1,20 @@
-<div class="card-header d-flex justify-content-between align-items-center">
+<div class="card-header d-flex justify-content-between align-items-center p-0 px-4">
     <div>
         <h5 class="card-title">Quản lý Dịch vụ</h5>
-        <p style="color: #636465ff;">Danh sách các dịch vụ</p>
     </div>
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serviceModal">Thêm Dịch vụ Mới</button>
 </div>
 <div class="card-body">
+    <div class="input-group search-group mb-3">
+        <span class="input-group-text search-icon">
+            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+        </span>
+        <input class="form-control search-input" placeholder="Tìm kiếm dịch vụ theo id, tên..." value="" aria-label="Tìm kiếm" />
+    </div>
+    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#serviceModal">Thêm Dịch vụ Mới</a>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Mã dịch vụ</th>
                     <th>Tên Dịch vụ</th>
                     <th>Mô tả</th>
@@ -18,11 +22,10 @@
                     <th>Hành động</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="align-middle">
                 <?php if (!empty($services)): ?>
                     <?php foreach ($services as $service): ?>
                         <tr>
-                            <td><?= htmlspecialchars($service['id']) ?></td>
                             <td><?= htmlspecialchars($service['service_code'] ?? '') ?></td>
                             <td><?= htmlspecialchars($service['name']) ?></td>
                             <?php
@@ -66,7 +69,7 @@
     </div>
 </div>
 
-<!-- Service modal (Add/Edit) -->
+<!-- Modal thêm dịch vụ-->
 <div class="modal fade" id="serviceModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
