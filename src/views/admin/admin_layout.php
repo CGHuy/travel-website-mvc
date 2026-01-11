@@ -50,9 +50,15 @@
                                 style="color: inherit;">
                                 Quản lý booking</a>
                         </li>
-                        <li class="menu-item mb-1 <?= $currentPage === 'service' ? 'active' : '' ?>">
+                        <li class="menu-item mb-1 <?= $currentPage === 'Service' ? 'active' : '' ?>">
                             <i class="fa-solid fa-concierge-bell"></i>
-                            <a href="<?= route('service.index'); ?>" class="text-decoration-none flex-grow-1"
+                            <a href="<?= route('Service.index'); ?>" class="text-decoration-none flex-grow-1"
+                                style="color: inherit;">
+                                Quản lý dịch vụ</a>
+                        </li>
+                        <li class="menu-item mb-1 <?= $currentPage === 'TourService' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-concierge-bell"></i>
+                            <a href="<?= route('TourService.index'); ?>" class="text-decoration-none flex-grow-1"
                                 style="color: inherit;">
                                 Quản lý dịch vụ</a>
                         </li>

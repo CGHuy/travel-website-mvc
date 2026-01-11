@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<!-- Modal Thêm Tour -->
+<!-- Modal thêm Tour -->
 <div class="modal fade" id="addTourModal" tabindex="-1" aria-labelledby="addTourModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
