@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="card-body">
-   <form method="GET" action="" class="mb-3">
+   <form id="service-search-form" class="mb-3">
     <input type="hidden" name="controller" value="Service">
     <input type="hidden" name="action" value="index">
 
@@ -13,13 +13,16 @@
     <i class="fa-solid fa-magnifying-glass fa-sm"></i>
 </button>
 
-        <input
-            type="text"
-            name="keyword"
-            class="form-control search-input"
-            placeholder="Tìm kiếm dịch vụ theo mã, tên..."
-            value="<?= $_GET['keyword'] ?? '' ?>"
+    <input
+        type="text"
+        id="service-search-keyword"
+        name="keyword"
+        class="form-control search-input"
+        placeholder="Tìm kiếm dịch vụ theo mã, tên..."
+        value="<?= $_GET['keyword'] ?? '' ?>"
         />
+
+
     </div>
 </form>
 
@@ -63,7 +66,7 @@
                                     data-id="<?= htmlspecialchars($service['id']) ?>"
                                     data-name="<?= htmlspecialchars($service['name']) ?>"
                                     data-slug="<?= htmlspecialchars($service['slug'] ?? '') ?>"
-                                    data-service_code="<?= htmlspecialchars($service['service_code'] ?? '') ?>"
+                                    data-service-code="<?= htmlspecialchars($service['service_code'] ?? '') ?>"
                                     data-description="<?= htmlspecialchars($service['description'] ?? '') ?>"
                                     data-icon="<?= htmlspecialchars($service['icon'] ?? '') ?>"
                                     data-status="<?= ($service['status'] ?? 0) ?>"
@@ -101,42 +104,5 @@
     </div>
   </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const modal = document.getElementById('serviceModal');
-  const modalTitle = document.getElementById('serviceModalTitle');
-  const form = modal.querySelector('form');
+<script src="/public/js/quanlyservice.js"></script>
 
-  document.querySelectorAll('.btn-edit-service').forEach(btn => {
-    btn.addEventListener('click', function(){
-      const id = this.dataset.id;
-      const name = this.dataset.name || '';
-      const slug = this.dataset.slug || '';
-      const description = this.dataset.description || '';
-      const serviceCode = this.dataset.service_code || '';
-      const status = this.dataset.status == '1';
-
-      modalTitle.textContent = 'Sửa Dịch vụ';
-      form.action = '?controller=Service&action=update&id=' + id;
-
-      form.querySelector('[name="name"]').value = name;
-      form.querySelector('[name="slug"]').value = slug;
-      form.querySelector('[name="description"]').value = description;
-      form.querySelector('#service-status').checked = status;
-
-      if (serviceCode) {
-        const scField = form.querySelector('.service-code-display');
-        if (scField) scField.value = serviceCode;
-      }
-
-      new bootstrap.Modal(modal).show();
-    });
-  });
-
-  modal.addEventListener('hidden.bs.modal', function(){
-    modalTitle.textContent = 'Thêm Dịch vụ';
-    form.action = '?controller=Service&action=store';
-    form.reset();
-  });
-});
-</script>

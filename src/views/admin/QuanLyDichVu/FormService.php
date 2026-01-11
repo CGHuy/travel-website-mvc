@@ -20,12 +20,8 @@ $status = isset($service['status']) ? (int)$service['status'] : 1;
     <div class="form-text">Tự sinh từ tên hoặc chỉnh tay.</div>
   </div>
 
-  <?php if (!empty($service_code)): ?>
-  <div class="mb-3">
-    <label class="form-label">Mã dịch vụ</label>
-    <input type="text" class="form-control service-code-display" value="<?= htmlspecialchars($service_code) ?>" readonly>
-  </div>
-  <?php endif; ?>
+
+
 
   <div class="mb-3">
     <label class="form-label">Mô tả</label>
