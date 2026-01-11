@@ -22,7 +22,7 @@ class TourItineraryController {
             return $tour;
         }, $all_tours);
 
-        $currentPage = 'itinerary';
+        $currentPage = 'TourItinerary';
         ob_start();
         include __DIR__ . '/../views/admin/QuanLyLichTrinh/QuanLyLichTrinh.php';
         $content = ob_get_clean();

@@ -27,6 +27,6 @@ return [
     'TourItinerary.delete' => ['controller' => 'TourItineraryController', 'action' => 'delete'],
     'BookingAdmin.index' => ['controller' => 'BookingAdminController', 'action' => 'index'],
     'BookingAdmin.detail' => ['controller' => 'BookingAdminController', 'action' => 'detail'],
-    'service.index' => ['controller' => 'ServiceController', 'action' => 'index'],
+    'Service.index' => ['controller' => 'ServiceController', 'action' => 'index'],
 ];
 ?>

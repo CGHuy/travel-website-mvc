@@ -10,7 +10,7 @@ class ServiceController {
 
     public function index() {
         $services = $this->model->getAll();
-        $currentPage = 'service';
+        $currentPage = 'Service';
         ob_start();
         include __DIR__ . '/../views/admin/QuanLyDichVu/QuanLyService.php';
         $content = ob_get_clean();
