@@ -4,29 +4,13 @@
     </div>
 </div>
 <div class="card-body">
-   <form id="service-search-form" class="mb-3">
-    <input type="hidden" name="controller" value="Service">
-    <input type="hidden" name="action" value="index">
-
-    <div class="input-group search-group">
-       <button class="input-group-text search-icon" type="submit">
-    <i class="fa-solid fa-magnifying-glass fa-sm"></i>
-</button>
-
-    <input
-        type="text"
-        id="service-search-keyword"
-        name="keyword"
-        class="form-control search-input"
-        placeholder="Tìm kiếm dịch vụ theo mã, tên..."
-        value="<?= $_GET['keyword'] ?? '' ?>"
-        />
-
-
+   <div class="input-group search-group mb-3">
+        <span class="input-group-text search-icon">
+            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+        </span>
+        <input class="form-control search-input" placeholder="Tìm kiếm dịch vụ theo id, tên..." value="" aria-label="Tìm kiếm" />
     </div>
-</form>
-
-    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#serviceModal">Thêm Dịch vụ Mới</a>
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addServiceModal">Thêm Dịch vụ Mới</button>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -42,8 +26,8 @@
                 <?php if (!empty($services)): ?>
                     <?php foreach ($services as $service): ?>
                         <tr>
-                            <td><?= htmlspecialchars($service['service_code'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($service['name']) ?></td>
+                            <td class="find_id"><?= htmlspecialchars($service['service_code'] ?? '') ?></td>
+                            <td class="find_name"><?= htmlspecialchars($service['name']) ?></td>
                             <?php
                                 $desc = $service['description'] ?? '';
                                 $short = mb_substr($desc, 0, 50);
@@ -61,17 +45,19 @@
                             <?php endif; ?>
                             </td>
                             <td>
-                                <button type="button"
-                                    class="btn btn-sm btn-outline-primary btn-edit-service"
-                                    data-id="<?= htmlspecialchars($service['id']) ?>"
-                                    data-name="<?= htmlspecialchars($service['name']) ?>"
-                                    data-slug="<?= htmlspecialchars($service['slug'] ?? '') ?>"
-                                    data-service-code="<?= htmlspecialchars($service['service_code'] ?? '') ?>"
-                                    data-description="<?= htmlspecialchars($service['description'] ?? '') ?>"
-                                    data-icon="<?= htmlspecialchars($service['icon'] ?? '') ?>"
-                                    data-status="<?= ($service['status'] ?? 0) ?>"
-                                >Sửa</button>
-                                <a href="?controller=Service&action=delete&id=<?= htmlspecialchars($service['id']) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xác nhận xóa dịch vụ này?')">Xóa</a>
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editServiceModal"
+                                    data-id="<?= $service['id'] ?>">
+                                    <i class="fa-solid fa-pen-to-square me-1"></i> Sửa
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteServiceModal"
+                                    data-id="<?= $service['id'] ?>"
+                                    data-name="<?= htmlspecialchars($service['name']) ?>">
+                                    <i class="fa-solid fa-trash me-1"></i> Xóa
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -85,24 +71,74 @@
     </div>
 </div>
 
-<!-- Modal thêm dịch vụ-->
-<div class="modal fade" id="serviceModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="serviceModalTitle">Thêm Dịch vụ</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <?php
-          $action = '?controller=Service&action=store';
-          $service = null;
-          $errors = [];
-          include __DIR__ . '/FormService.php';
-        ?>
-      </div>
+<!-- Modal Thêm Dịch vụ -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServiceModalLabel">Thêm Dịch vụ Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pb-0 pt-0">
+                <!-- Nội dung form sẽ được load động -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Đang tải form...</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-<script src="/public/js/quanlyservice.js"></script>
+
+<!-- Modal Sửa Dịch vụ -->
+<div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editServiceModalLabel">Sửa Dịch vụ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pb-0 pt-0">
+                <!-- Nội dung form sẽ được load động -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Đang tải form...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xóa Dịch vụ -->
+<div class="modal fade" id="deleteServiceModal" tabindex="-1" aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="deleteServiceModalLabel">Xác nhận xóa dịch vụ</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="post" action="?controller=Service&action=delete">
+                <input type="hidden" name="id" id="delete_service_id">
+
+                <div class="modal-body">
+                    <p class="m-0 p-2">Bạn có chắc chắn muốn xóa dịch vụ:</p>
+                    <strong id="delete_service_name" class="p-2"></strong>
+                    <p class="text-danger m-0 p-2"><strong>Hành động này không thể hoàn tác.</strong></p>
+                </div>
+
+                <div class="modal-footer pb-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/web_du_lich/public/js/admin/QuanLy.js"></script>
 

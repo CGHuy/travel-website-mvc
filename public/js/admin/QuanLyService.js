@@ -1,57 +1,72 @@
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function(){
-  const modal = document.getElementById('serviceModal');
-  const modalTitle = document.getElementById('serviceModalTitle');
-  const form = modal.querySelector('form');
+     // Modal thêm
+     var addModal = document.getElementById('addServiceModal');
+     if (addModal) {
+          addModal.addEventListener('show.bs.modal', function () {
+               var modalBody = addModal.querySelector('.modal-body');
+               modalBody.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Đang tải form...</p></div>';
 
-  document.querySelectorAll('.btn-edit-service').forEach(btn => {
-    btn.addEventListener('click', function(){
-      const id = this.dataset.id;
-      const name = this.dataset.name || '';
-      const slug = this.dataset.slug || '';
-      const description = this.dataset.description || '';
-      const serviceCode = this.dataset.serviceCode || '';
-      const status = this.dataset.status == '1';
+               fetch('index.php?controller=Service&action=getAddForm')
+                    .then(response => response.text())
+                    .then(html => {
+                         modalBody.innerHTML = html;
+                    })
+                    .catch(error => {
+                         modalBody.innerHTML = '<div class="alert alert-danger">Lỗi tải form: ' + error.message + '</div>';
+                    });
+          });
+     }
 
-      modalTitle.textContent = 'Sửa Dịch vụ';
-      form.action = '?controller=Service&action=update&id=' + id;
+     // Modal sửa
+     var editModal = document.getElementById('editServiceModal');
+     if (editModal) {
+          editModal.addEventListener('show.bs.modal', function (event) {
+               var button = event.relatedTarget;
+               var id = button.getAttribute('data-id');
+               var modalBody = editModal.querySelector('.modal-body');
+               modalBody.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Đang tải form...</p></div>';
 
-      form.querySelector('[name="name"]').value = name;
-      form.querySelector('[name="slug"]').value = slug;
-      form.querySelector('[name="description"]').value = description;
-      form.querySelector('#service-status').checked = status;
+               fetch('index.php?controller=Service&action=getEditForm&id=' + id)
+                    .then(response => response.text())
+                    .then(html => {
+                         modalBody.innerHTML = html;
+                    })
+                    .catch(error => {
+                         modalBody.innerHTML = '<div class="alert alert-danger">Lỗi tải form: ' + error.message + '</div>';
+                    });
+          });
+     }
 
-      if (serviceCode) {
-        const scField = form.querySelector('.service-code-display');
-        if (scField) scField.value = serviceCode;
-      }
+     // Modal xóa
+     var deleteModal = document.getElementById('deleteServiceModal');
+     if (deleteModal) {
+          deleteModal.addEventListener('show.bs.modal', function (event) {
+               var button = event.relatedTarget;
+               var id = button.getAttribute('data-id');
+               var name = button.getAttribute('data-name');
 
-     bootstrap.Modal.getOrCreateInstance(modal).show();
+               document.getElementById('delete_service_id').value = id;
+               document.getElementById('delete_service_name').innerText = name;
+          });
+     }
 
-    });
-  });
+     // Tìm kiếm
+     var searchInput = document.querySelector('.search-input');
+     if (searchInput) {
+          searchInput.addEventListener('keyup', function() {
+               var filter = searchInput.value.toLowerCase();
+               var rows = document.querySelectorAll('tbody tr');
 
-  modal.addEventListener('hidden.bs.modal', function(){
-    modalTitle.textContent = 'Thêm Dịch vụ';
-    form.action = '?controller=Service&action=store';
-    form.reset();
-  });
+               for (var i = 0; i < rows.length; i++) {
+                    var rowText = rows[i].textContent.toLowerCase();
+                    if (rowText.indexOf(filter) > -1) {
+                         rows[i].style.display = '';
+                    } else {
+                         rows[i].style.display = 'none';
+                    }
+               }
+          });
+     }
+
 });
-
-// ===== SEARCH SERVICE =====
-const searchForm = document.getElementById('service-search-form');
-const keywordInput = document.getElementById('service-search-keyword');
-
-if (searchForm && keywordInput) {
-  searchForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const keyword = keywordInput.value.trim();
-
-    const url =
-      '?controller=Service&action=index&keyword=' +
-      encodeURIComponent(keyword);
-
-    window.location.href = url;
-  });
-}
