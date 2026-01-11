@@ -10,7 +10,7 @@ class TourController {
 
     public function index() {
         $tours = $this->model->getAll();
-        $currentPage = 'tour';
+        $currentPage = 'Tour';
         ob_start();
         include __DIR__ . '/../views/admin/QuanLyTour/QuanLyTour.php';
         $content = ob_get_clean();
