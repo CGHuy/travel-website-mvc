@@ -47,7 +47,34 @@ class BookingTourController
     }
 
 
-    public function book()
+    public function payment()
+    {
+        if (session_status() === PHP_SESSION_NONE)
+            session_start();
+
+        $departure_id = $_POST['departure_id'];
+        $adults = (int) $_POST['adults'];
+        $children = (int) $_POST['children'];
+        $tour_id = $_POST['tour_id'];
+
+        $tour = $this->tourModel->getById($tour_id);
+        $departure = $this->tour_departureModel->getById($departure_id);
+
+        $adults_cost = $adults * $tour['price_default'];
+        $children_cost = $children * $tour['price_child'];
+        $moving_total = $departure['price_moving'] * ($adults + $children);
+        $total_price = $adults_cost + $children_cost + $moving_total;
+        $total_quantity = $adults + $children;
+
+        $contact_name = $_POST['contact_name'];
+        $contact_phone = $_POST['contact_phone'];
+        $contact_email = $_POST['contact_email'];
+        $note = $_POST['note'];
+
+        return include __DIR__ . '/../views/components/Payment.php';
+    }
+
+    public function confirmPayment()
     {
         if (session_status() === PHP_SESSION_NONE)
             session_start();
@@ -72,7 +99,7 @@ class BookingTourController
         $tour_price_child = $tour['price_child'] ?? 0;
         $moving_price = $departure['price_moving'] ?? 0;
 
-        // Tính tổng giá: (người lớn * giá người lớn + trẻ em * giá trẻ em + phí di chuyển) * tổng số người
+        // Tính tổng giá
         $total_quantity = $adults + $children;
         $total_price = ($adults * $tour_price_adult + $children * $tour_price_child + $moving_price * $total_quantity);
 
@@ -90,14 +117,11 @@ class BookingTourController
             $note
         );
 
-        //Cập nhật departure 
+        // Cập nhật departure 
         $this->tour_departureModel->decreaseSeatsAvailable($departure_id, $total_quantity);
 
-        // Lưu thông báo thành công và redirect
-        $_SESSION['booking_success'] = true;
-        $_SESSION['booking_message'] = 'Đặt tour thành công!';
-        header('Location: ' . route('settinguser.bookingHistory'));
+        // Redirect tới trang xác nhận hoặc lịch sử booking
+        header('Location: /web_du_lich/public/booking-history.php?success=1');
         exit;
     }
-
 }

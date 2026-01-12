@@ -4,24 +4,38 @@ function validateBookingForm() {
 	const email = document.getElementById("contact_email");
 	const departure = document.getElementById("departure_id");
 	const adults = document.getElementById("adults");
+	const children = document.getElementById("children");
 	const bookBtn = document.querySelector('button[form="booking-form"]');
 
-	let valid =
-		name?.value.trim() &&
-		phone?.value.trim() &&
-		email?.value.trim() &&
-		departure?.value &&
-		adults?.value &&
-		parseInt(adults.value) >= 1;
+	const hasName = name && name.value.trim();
+	const hasPhone = phone && phone.value.trim();
+	const hasEmail = email && email.value.trim();
+	const hasDeparture = departure && departure.value;
+	const adultsCount = parseInt(adults?.value || 0);
+	const childrenCount = parseInt(children?.value || 0);
+	const totalQuantity = adultsCount + childrenCount;
+	const hasQuantity = totalQuantity >= 1;
 
 	const warningAlert = document.getElementById("quantity-warning");
-	if (warningAlert?.style.display !== "none") valid = false;
+	const hasWarning = warningAlert && warningAlert.style.display !== "none";
+
+	const valid =
+		hasName &&
+		hasPhone &&
+		hasEmail &&
+		hasDeparture &&
+		hasQuantity &&
+		!hasWarning;
 
 	if (bookBtn) {
 		bookBtn.disabled = !valid;
-		bookBtn.classList.toggle("disabled", !valid);
-		bookBtn.style.opacity = valid ? "" : "0.6";
-		bookBtn.style.pointerEvents = valid ? "" : "none";
+		if (valid) {
+			bookBtn.classList.remove("disabled");
+			bookBtn.style.opacity = "1";
+		} else {
+			bookBtn.classList.add("disabled");
+			bookBtn.style.opacity = "0.6";
+		}
 	}
 }
 

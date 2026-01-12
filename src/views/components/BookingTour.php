@@ -29,7 +29,7 @@ include __DIR__ . '/../partials/header.php';
     <div class="container my-4">
         <div class="row g-4">
             <main class="col-7">
-                <form method="post" action="<?= route('BookingTour.book') ?>" id="booking-form">
+                <form method="post" action="<?= route('BookingTour.payment') ?>" id="booking-form">
                     <input type="hidden" name="tour_id" value="<?php echo htmlspecialchars($tour['id'] ?? ''); ?>">
                     <div class="card mb-4">
                         <div class="card-header">
