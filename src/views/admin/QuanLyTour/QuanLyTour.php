@@ -5,7 +5,7 @@
         </h5>
     </div>
     <div class="text-end mb-2">
-        <span class="badge bg-info">Tổng: <?= count($tours) ?> tour</span>
+        <span class="badge bg-info">Tổng: <?= $total ?> tour</span>
     </div>
 </div>
 <div class="card-body">
@@ -62,6 +62,31 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php if ($totalPages > 1): ?>
+                <nav aria-label="Page navigation" class="mt-3">
+                    <ul class="pagination justify-content-center">
+                        <?php if ($page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?controller=tour&action=index&page=<?= $page - 1 ?>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="?controller=tour&action=index&page=<?= $i ?>"><?= $i ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        <?php if ($page < $totalPages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?controller=tour&action=index&page=<?= $page + 1 ?>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            <?php endif; ?>
         <?php else: ?>
             <p class="text-center">Không có tour nào.</p>
         <?php endif; ?>

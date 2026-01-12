@@ -9,15 +9,34 @@ class TourDeparture
         $this->db = new Database();
         $this->conn = $this->db->getConnection();
     }
-    public function getAll()
-    {
-        $sql = "SELECT * FROM tour_departures";
-        $result = $this->conn->query($sql);
+    public function getAllPaginated($offset, $limit) {
+        $sql = "SELECT td.*, t.name AS tour_name FROM tour_departures td JOIN tours t ON td.tour_id = t.id LIMIT ?, ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $departures = [];
-        if ($result)
-            while ($row = $result->fetch_assoc())
-                $departures[] = $row;
+        while ($row = $result->fetch_assoc()) {
+            // Kiểm tra và cập nhật status nếu đã quá thời gian khởi hành
+            if ($row['status'] != 'closed' && strtotime($row['departure_date']) < time()) {
+                $this->updateStatus($row['id'], 'closed');
+                $row['status'] = 'closed';
+            }
+            // Kiểm tra và cập nhật status nếu hết chỗ
+            elseif ($row['seats_available'] == 0 && $row['status'] != 'full') {
+                $this->updateStatus($row['id'], 'full');
+                $row['status'] = 'full';
+            }
+            $departures[] = $row;
+        }
         return $departures;
+    }
+
+    public function getTotal() {
+        $sql = "SELECT COUNT(*) as total FROM tour_departures";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['total'];
     }
     public function getById($id)
     {
@@ -59,13 +78,13 @@ class TourDeparture
         return $departures;
     }
 
-    public function decreaseSeatsAvailable($departure_id, $quantity)
+    public function updateStatus($id, $status)
     {
-        $stmt = $this->conn->prepare("UPDATE tour_departures SET seats_available = seats_available - ? WHERE id = ? AND
-seats_available >= ?");
-        $stmt->bind_param("iii", $quantity, $departure_id, $quantity);
+        $stmt = $this->conn->prepare("UPDATE tour_departures SET status = ? WHERE id = ?");
+        $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
+
     public function __destruct()
     {
         $this->db->close();

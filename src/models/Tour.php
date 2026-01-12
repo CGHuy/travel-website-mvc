@@ -65,6 +65,26 @@ class Tour {
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+
+    public function getAllPaginated($offset, $limit) {
+        $sql = "SELECT * FROM tours LIMIT ?, ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tours = [];
+        while ($row = $result->fetch_assoc()) {
+            $tours[] = $row;
+        }
+        return $tours;
+    }
+
+    public function getTotal() {
+        $sql = "SELECT COUNT(*) as total FROM tours";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
     
     public function __destruct() {
         $this->db->close();
