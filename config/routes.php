@@ -42,5 +42,10 @@ return [
     'TourService.index' => ['controller' => 'TourServiceController', 'action' => 'index'],
     'TourService.getForm' => ['controller' => 'TourServiceController', 'action' => 'getForm'],
     'TourService.save' => ['controller' => 'TourServiceController', 'action' => 'save'],
+    // Tour image management
+    'TourImage.index' => ['controller' => 'TourImageController', 'action' => 'index'],
+    'TourImage.getForm' => ['controller' => 'TourImageController', 'action' => 'getForm'],
+    'TourImage.upload' => ['controller' => 'TourImageController', 'action' => 'upload'],
+    'TourImage.delete' => ['controller' => 'TourImageController', 'action' => 'delete'],
 ];
 ?>
