@@ -33,5 +33,8 @@ return [
     'Service.delete' => ['controller' => 'ServiceController', 'action' => 'delete'],
     'Service.getAddForm' => ['controller' => 'ServiceController', 'action' => 'getAddForm'],
     'Service.getEditForm' => ['controller' => 'ServiceController', 'action' => 'getEditForm'],
+    'TourService.index' => ['controller' => 'TourServiceController', 'action' => 'index'],
+    'TourService.getForm' => ['controller' => 'TourServiceController', 'action' => 'getForm'],
+    'TourService.save' => ['controller' => 'TourServiceController', 'action' => 'save'],
 ];
 ?>

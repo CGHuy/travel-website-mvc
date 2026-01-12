@@ -1,6 +1,8 @@
 <div class="card-header d-flex justify-content-between align-items-center p-0 px-4">
     <div>
-        <h5 class="card-title">Quản lý Dịch vụ</h5>
+        <h5 class="card-title">
+            <i class="fa-solid fa-concierge-bell me-2"></i>Quản lý Dịch vụ
+        </h5>
     </div>
 </div>
 <div class="card-body">
