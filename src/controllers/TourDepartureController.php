@@ -9,7 +9,12 @@ class TourDepartureController {
     }
 
     public function index() {
-        $departures = $this->model->getAll();
+        $page = $_GET['page'] ?? 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $departures = $this->model->getAllPaginated($offset, $limit);
+        $total = $this->model->getTotal();
+        $totalPages = ceil($total / $limit);
         $currentPage = 'TourDeparture';
         ob_start();
         include __DIR__ . '/../views/admin/QuanLyDiemKhoiHanh/QuanLyDiemKhoiHanh.php';

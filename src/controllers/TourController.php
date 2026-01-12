@@ -9,7 +9,12 @@ class TourController {
     }
 
     public function index() {
-        $tours = $this->model->getAll();
+        $page = $_GET['page'] ?? 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $tours = $this->model->getAllPaginated($offset, $limit);
+        $total = $this->model->getTotal();
+        $totalPages = ceil($total / $limit);
         $currentPage = 'Tour';
         ob_start();
         include __DIR__ . '/../views/admin/QuanLyTour/QuanLyTour.php';

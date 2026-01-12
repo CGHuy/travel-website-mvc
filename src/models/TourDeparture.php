@@ -9,27 +9,34 @@ class TourDeparture
         $this->db = new Database();
         $this->conn = $this->db->getConnection();
     }
-    public function getAll()
-    {
-        $sql = "SELECT td.*, t.name AS tour_name FROM tour_departures td JOIN tours t ON td.tour_id = t.id";
-        $result = $this->conn->query($sql);
+    public function getAllPaginated($offset, $limit) {
+        $sql = "SELECT td.*, t.name AS tour_name FROM tour_departures td JOIN tours t ON td.tour_id = t.id LIMIT ?, ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $departures = [];
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                // Kiểm tra và cập nhật status nếu đã quá thời gian khởi hành
-                if ($row['status'] != 'closed' && strtotime($row['departure_date']) < time()) {
-                    $this->updateStatus($row['id'], 'closed');
-                    $row['status'] = 'closed';
-                }
-                // Kiểm tra và cập nhật status nếu hết chỗ
-                elseif ($row['seats_available'] == 0 && $row['status'] != 'full') {
-                    $this->updateStatus($row['id'], 'full');
-                    $row['status'] = 'full';
-                }
-                $departures[] = $row;
+        while ($row = $result->fetch_assoc()) {
+            // Kiểm tra và cập nhật status nếu đã quá thời gian khởi hành
+            if ($row['status'] != 'closed' && strtotime($row['departure_date']) < time()) {
+                $this->updateStatus($row['id'], 'closed');
+                $row['status'] = 'closed';
             }
+            // Kiểm tra và cập nhật status nếu hết chỗ
+            elseif ($row['seats_available'] == 0 && $row['status'] != 'full') {
+                $this->updateStatus($row['id'], 'full');
+                $row['status'] = 'full';
+            }
+            $departures[] = $row;
         }
         return $departures;
+    }
+
+    public function getTotal() {
+        $sql = "SELECT COUNT(*) as total FROM tour_departures";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['total'];
     }
     public function getById($id)
     {
