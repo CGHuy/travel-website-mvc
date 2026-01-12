@@ -127,7 +127,13 @@ include __DIR__ . '/../partials/header.php';
                                 <div class="fw-bold my-1" style="font-size:1.4rem;line-height:1.3;"><?php echo htmlspecialchars($tour['name']); ?></div>
                                 <div><strong>Mã Tour:</strong> <?php echo htmlspecialchars($tour['tour_code']); ?></div>
                                 <div><strong>Thời lượng:</strong> <?php echo htmlspecialchars($tour['duration']); ?></div>
-                                <div><strong>Đơn giá:</strong> <span class="text-primary fw-bold"><?php echo number_format($tour['price_default'], 0, ',', '.'); ?>đ/Người</span></div>
+                                <div>
+                                    <strong>Đơn giá:</strong> 
+                                   <div class="mx-2">
+                                        <div class="text-primary fw-bold"><?php echo number_format($tour['price_default'], 0, ',', '.'); ?>đ/Người Lớn</div>
+                                        <div class="text-primary fw-bold"><?php echo number_format($tour['price_child'], 0, ',', '.'); ?>đ/Trẻ Em</div>
+                                   </div>
+                            </div>
                             </div>
                         </div>
                         <hr>

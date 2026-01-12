@@ -256,7 +256,8 @@ INSERT INTO bookings (
  -- Một số booking khách lẻ (gán vào user có sẵn, contact trùng thông tin user)
  (16,1, 8, 2, 0, 3800000.00, 'paid',    'confirmed', 'Nguyễn Văn An',   '0901000001','an.nguyen@example.com','Đặt trực tiếp tại văn phòng.'),
  (17,2,15, 1, 1, 5200000.00, 'paid',    'confirmed',   'Trần Thị Bình',   '0901000002','binh.tran@example.com','Đặt online, đã thanh toán.'),
- (18,3,19, 4, 0, 28800000.00,'paid',    'confirmed', 'Lê Hoàng Nam',    '0901000003','nam.le@example.com','Đoàn incentive 4 người.');
+ (18,3,19, 4, 0, 28800000.00,'paid',    'confirmed', 'Lê Hoàng Nam',    '0901000003','nam.le@example.com','Đoàn incentive 4 người.'),
+ (19,4,10, 2, 1, 11000000.00,'paid', 'pending_cancellation', 'Phạm Thu Hà',     '0901000004', 'ha.pham@example.com',   'Đã thanh toán nhưng khách yêu cầu hủy.');
 
 -- =====================
 -- WISHLIST (tour yêu thích của từng user)

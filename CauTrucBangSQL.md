@@ -109,7 +109,7 @@ departure_id INT NOT NULL,
      total_price DECIMAL(12,2) NOT NULL DEFAULT 0.00,
 
      payment_status ENUM('paid','refunded') NOT NULL DEFAULT 'paid',
-     status ENUM('confirmed','cancelled') NOT NULL DEFAULT 'confirmed',
+     status ENUM('confirmed','cancelled','pending_cancellation') NOT NULL DEFAULT 'confirmed',
 
      contact_name VARCHAR(255) NOT NULL,
      contact_phone VARCHAR(20) NOT NULL,
