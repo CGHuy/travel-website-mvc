@@ -218,7 +218,7 @@ INSERT INTO bookings (
 ) VALUES
  -- Tour 1, departure 1
  (1, 1, 1, 2, 1, 9500000.00, 'paid',    'confirmed', 'Nguyễn Văn An',  '0901000001', 'an.nguyen@example.com',   'Yêu cầu phòng 3 người, gần cửa sổ.'),
- (2, 2, 1, 1, 0, 4300000.00, 'paid',    'confirmed', 'Trần Thị Bình',  '0901000002', 'binh.tran@example.com',   'Đã thanh toán, xác nhận đặt chỗ.'),,
+ (2, 2, 1, 1, 0, 4300000.00, 'paid',    'confirmed', 'Trần Thị Bình',  '0901000002', 'binh.tran@example.com',   'Đã thanh toán, xác nhận đặt chỗ.'),
 
  -- Tour 1, departure 2 (sắp đầy)
  (3, 3, 2, 3, 0, 10800000.00, 'paid',   'confirmed', 'Lê Hoàng Nam',    '0901000003', 'nam.le@example.com',     'Nhóm bạn 3 người.'),
@@ -255,8 +255,9 @@ INSERT INTO bookings (
 
  -- Một số booking khách lẻ (gán vào user có sẵn, contact trùng thông tin user)
  (16,1, 8, 2, 0, 3800000.00, 'paid',    'confirmed', 'Nguyễn Văn An',   '0901000001','an.nguyen@example.com','Đặt trực tiếp tại văn phòng.'),
- (17,2,15, 1, 1, 5200000.00, 'unpaid',  'pending',   'Trần Thị Bình',   '0901000002','binh.tran@example.com','Đặt online, đã thanh toán.');,
- (18,3,19, 4, 0, 28800000.00,'paid',    'confirmed', 'Lê Hoàng Nam',    '0901000003','nam.le@example.com','Đoàn incentive 4 người.');
+ (17,2,15, 1, 1, 5200000.00, 'paid',    'confirmed', 'Trần Thị Bình',   '0901000002','binh.tran@example.com','Đặt online, đã thanh toán.'),
+ (18,3,19, 4, 0, 28800000.00,'paid',    'confirmed', 'Lê Hoàng Nam',    '0901000003','nam.le@example.com','Đoàn incentive 4 người.'),
+ (19,4,10, 2, 1, 11000000.00,'paid', 'pending_cancellation', 'Phạm Thu Hà',     '0901000004', 'ha.pham@example.com',   'Đã thanh toán nhưng khách yêu cầu hủy.');
 
 -- =====================
 -- WISHLIST (tour yêu thích của từng user)
