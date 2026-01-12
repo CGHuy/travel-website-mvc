@@ -29,8 +29,11 @@ include __DIR__ . '/../partials/header.php';
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="card-title text-center text-white">THANH TOÁN ĐẶT TOUR</h2>
+                    <div class="card-header bg-primary text-white d-flex justify-content-center align-items-center position-relative" style="padding: 1.5rem;">
+                        <h2 class="card-title text-white mb-0">THANH TOÁN ĐẶT TOUR</h2>
+                        <a href="javascript:history.back()" class="btn btn-white btn-sm position-absolute" style="right:20px;top:50%;transform:translateY(-50%);">
+                            <i class="fa fa-arrow-left text-white" style="font-size: 1.3rem;"></i>
+                        </a>
                     </div>
                     <div class="card-body p-5">
                         <!-- Thông tin tour -->
@@ -89,36 +92,91 @@ include __DIR__ . '/../partials/header.php';
                         </div>
 
                         <!-- Mã QR -->
-                        <div style="background-color:#fff3cd;padding:20px;border-radius:8px;border:2px dashed #ffc107;margin-bottom:30px;text-align:center;">
-                            <p class="mb-3"><strong>Quét mã QR để thanh toán</strong></p>
+                        <div style="background-color:#fff3cd;padding:20px;border-radius:8px;border:2px dashed #ffc107;margin-bottom:30px;text-align:center;cursor:pointer;" onclick="confirmBooking();">
+                            <p class="mb-3"><strong>Click QR để thanh toán</strong></p>
                             <div style="background:white;padding:10px;border-radius:8px;display:inline-block;">
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo urlencode('Thanh toan tour - ' . ($total_price ?? 0) . ' VND'); ?>" alt="QR Code" style="width:200px;height:200px;">
                             </div>
                         </div>
 
-                        <!-- Nút xác nhận -->
-                        <div class="row g-2">
-                            <div class="col-md-6">
-                                <a href="javascript:history.back()" class="btn btn-secondary w-100 fw-bold">
-                                    <i class="fa fa-arrow-left me-2"></i>Quay Lại
-                                </a>
-                            </div>
-                            <div class="col-md-6">
-                                <form method="post" action="<?= route('BookingTour.confirmPayment') ?>" style="display:inline;">
-                                    <input type="hidden" name="departure_id" value="<?php echo htmlspecialchars($departure_id ?? ''); ?>">
-                                    <input type="hidden" name="adults" value="<?php echo htmlspecialchars($adults ?? 0); ?>">
-                                    <input type="hidden" name="children" value="<?php echo htmlspecialchars($children ?? 0); ?>">
-                                    <input type="hidden" name="contact_name" value="<?php echo htmlspecialchars($contact_name ?? ''); ?>">
-                                    <input type="hidden" name="contact_phone" value="<?php echo htmlspecialchars($contact_phone ?? ''); ?>">
-                                    <input type="hidden" name="contact_email" value="<?php echo htmlspecialchars($contact_email ?? ''); ?>">
-                                    <input type="hidden" name="note" value="<?php echo htmlspecialchars($note ?? ''); ?>">
-                                    <input type="hidden" name="tour_id" value="<?php echo htmlspecialchars($tour_id ?? 0); ?>">
-                                    <button type="submit" class="btn btn-success w-100 fw-bold">
-                                        <i class="fa fa-check-circle me-2"></i>Xác Nhận Thanh Toán
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                        <!-- Form ẩn để submit khi click QR -->
+                        <form method="post" action="<?= route('BookingTour.confirmPayment') ?>" id="payment-form" style="display:none;">
+                            <input type="hidden" name="departure_id" value="<?php echo htmlspecialchars($departure_id ?? ''); ?>">
+                            <input type="hidden" name="adults" value="<?php echo htmlspecialchars($adults ?? 0); ?>">
+                            <input type="hidden" name="children" value="<?php echo htmlspecialchars($children ?? 0); ?>">
+                            <input type="hidden" name="contact_name" value="<?php echo htmlspecialchars($contact_name ?? ''); ?>">
+                            <input type="hidden" name="contact_phone" value="<?php echo htmlspecialchars($contact_phone ?? ''); ?>">
+                            <input type="hidden" name="contact_email" value="<?php echo htmlspecialchars($contact_email ?? ''); ?>">
+                            <input type="hidden" name="note" value="<?php echo htmlspecialchars($note ?? ''); ?>">
+                            <input type="hidden" name="tour_id" value="<?php echo htmlspecialchars($tour_id ?? 0); ?>">
+                        </form>
+
+                        <script>
+                            function confirmBooking() {
+                                // Hiển thị toast thành công
+                                showSuccessToast();
+
+                                // Submit form sau 1 giây
+                                setTimeout(() => {
+                                    document.getElementById('payment-form').submit();
+                                }, 1000);
+                            }
+
+                            function showSuccessToast() {
+                                // Tạo toast container nếu chưa có
+                                let toastContainer = document.getElementById('toast-container');
+                                if (!toastContainer) {
+                                    toastContainer = document.createElement('div');
+                                    toastContainer.id = 'toast-container';
+                                    toastContainer.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;';
+                                    document.body.appendChild(toastContainer);
+                                }
+
+                                // Tạo toast element
+                                const toast = document.createElement('div');
+                                toast.style.cssText = `
+                                    background-color:#28a745;
+                                    color:white;
+                                    padding:16px 24px;
+                                    border-radius:8px;
+                                    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+                                    font-size:16px;
+                                    font-weight:600;
+                                    display:flex;
+                                    align-items:center;
+                                    gap:12px;
+                                    animation:slideIn 0.3s ease-out;
+                                    margin-bottom:10px;
+                                `;
+                                toast.innerHTML = `
+                                    <i class="fa fa-check-circle" style="font-size:20px;"></i>
+                                    <span>Thanh toán thành công! Đang chuyển hướng...</span>
+                                `;
+
+                                toastContainer.appendChild(toast);
+
+                                // Xóa toast sau 3 giây
+                                setTimeout(() => {
+                                    toast.remove();
+                                }, 3000);
+                            }
+
+                            // Thêm keyframe animation
+                            const style = document.createElement('style');
+                            style.textContent = `
+                                @keyframes slideIn {
+                                    from {
+                                        transform: translateX(400px);
+                                        opacity: 0;
+                                    }
+                                    to {
+                                        transform: translateX(0);
+                                        opacity: 1;
+                                    }
+                                }
+                            `;
+                            document.head.appendChild(style);
+                        </script>
 
                         <!-- Thông tin liên lạc -->
                         <hr class="my-4">

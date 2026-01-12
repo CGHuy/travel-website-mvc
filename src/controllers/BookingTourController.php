@@ -120,8 +120,10 @@ class BookingTourController
         // Cập nhật departure 
         $this->tour_departureModel->decreaseSeatsAvailable($departure_id, $total_quantity);
 
-        // Redirect tới trang xác nhận hoặc lịch sử booking
-        header('Location: /web_du_lich/public/booking-history.php?success=1');
+        // Lưu thông báo thành công và redirect
+        $_SESSION['booking_success'] = true;
+        $_SESSION['booking_message'] = 'Đặt tour thành công!';
+        header('Location: ' . route('settinguser.bookingHistory'));
         exit;
     }
 }
