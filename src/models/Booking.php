@@ -78,12 +78,11 @@ class Booking
         return $stmt->execute();
     }
 
+    // Admin note feature disabled: previously used to write admin notes into the `note` column.
     public function appendAdminNote($id, $admin_note)
     {
-        // Ghi đè ghi chú admin (không tự động thêm dòng hoàn tiền)
-        $stmt = $this->conn->prepare("UPDATE bookings SET note = ? WHERE id = ?");
-        $stmt->bind_param("si", $admin_note, $id);
-        return $stmt->execute();
+        // Disabled - no-op
+        return false;
     }
 
     public function __destruct()

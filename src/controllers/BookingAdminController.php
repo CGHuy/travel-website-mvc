@@ -75,8 +75,7 @@ class BookingAdminController
         $bookingId = isset($_POST['booking_id']) ? (int) $_POST['booking_id'] : null;
         $action = $_POST['action'] ?? '';
         $refundAmount = isset($_POST['refund_amount']) ? floatval($_POST['refund_amount']) : 0;
-        $refundNote = $_POST['refund_note'] ?? '';
-        $adminNote = $_POST['admin_note'] ?? '';
+        $refundNote = $_POST['refund_note'] ?? ''; // admin_note feature disabled
 
         if (!$bookingId) {
             http_response_code(400);
@@ -101,17 +100,12 @@ class BookingAdminController
             $bookingModel->updateStatus($bookingId, 'cancelled');
             $bookingModel->updatePaymentStatus($bookingId, 'refunded');
 
-            // Chỉ lưu ghi chú do admin nhập (nếu có)
-            if (trim($adminNote) !== '') {
-                $bookingModel->appendAdminNote($bookingId, $adminNote);
-            }
-
             // Thông báo xác nhận phê duyệt hoàn tiền thành công
             $_SESSION['admin_message'] = 'Phê duyệt hoàn tiền thành công! Số tiền hoàn: ' . number_format($refundAmount, 0, ',', '.') . 'đ';
         } elseif ($action === 'deny') {
             // revert to confirmed state
             $bookingModel->updateStatus($bookingId, 'confirmed');
-            $bookingModel->appendAdminNote($bookingId, "Từ chối yêu cầu hủy: " . $adminNote);
+            // admin note recording disabled
             $_SESSION['admin_message'] = 'Đã từ chối yêu cầu hủy.';
         }
 
