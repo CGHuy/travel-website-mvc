@@ -190,7 +190,7 @@ include __DIR__ . '/../partials/header.php';
                                                 </form>
                                                 <button type="button" class="btn btn-outline-primary btn-sm"
                                                     data-bs-toggle="modal" data-bs-target="#reviewModal">
-                                                    Đánh giá
+                                                    <?= !empty($existingReview) ? 'Đánh giá lại' : 'Đánh giá' ?>
                                                 </button>
                                             <?php else: ?>
                                                 <span class="text-muted">Không có hành động khả dụng</span>
@@ -225,7 +225,9 @@ include __DIR__ . '/../partials/header.php';
                                 <div class="rating-input" id="ratingInput">
                                     <div style="display: flex; gap: 0; justify-content: flex-start;">
                                         <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
+                                            <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>"
+                                                <?= (isset($existingReview['rating']) && $existingReview['rating'] == $i) ? 'checked' : '' ?>
+                                                required>
                                             <label for="star<?= $i ?>" class="star-wrapper">
                                                 <span class="star-label">★</span>
                                             </label>
@@ -295,12 +297,20 @@ include __DIR__ . '/../partials/header.php';
                                         updateStarDisplay();
                                     });
                                 });
+
+                                // Trigger highlight khi modal mở (nếu có review cũ)
+                                const reviewModal = document.getElementById('reviewModal');
+                                if (reviewModal) {
+                                    reviewModal.addEventListener('shown.bs.modal', function() {
+                                        updateStarDisplay();
+                                    });
+                                }
                             </script>
 
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Bình luận (tùy chọn)</label>
                                 <textarea class="form-control" id="comment" name="comment" rows="4"
-                                    placeholder="Chia sẻ trải nghiệm của bạn về tour..."></textarea>
+                                    placeholder="Chia sẻ trải nghiệm của bạn về tour..."><?= isset($existingReview['comment']) ? htmlspecialchars($existingReview['comment']) : '' ?></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -189,8 +189,13 @@ class SettingUserController
                 echo "Booking không tồn tại";
                 return;
             }
+
+            // Lấy review cũ nếu user đã đánh giá tour này
+            $tourId = $bookingDetail['tour_id'];
+            $existingReview = $this->checkExistingReview($this->userId, $tourId);
         } else {
             $bookingDetail = null;
+            $existingReview = null;
         }
 
         include __DIR__ . '/../views/components/DetailBookingHistory.php';
