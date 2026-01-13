@@ -14,6 +14,7 @@ return [
     'settinguser.updateBookingHistory' => ['controller' => 'SettingUserController', 'action' => 'updateBookingHistory'],
     'settinguser.detailBookingHistory' => ['controller' => 'SettingUserController', 'action' => 'detailBookingHistory'],
     'settinguser.requestCancelBooking' => ['controller' => 'SettingUserController', 'action' => 'requestCancelBooking'],
+    'settinguser.submitReview' => ['controller' => 'SettingUserController', 'action' => 'submitReview'],
     'settinguser.favoriteTour' => ['controller' => 'SettingUserController', 'action' => 'favoriteTour'],
     'settinguser.updateFavoriteTour' => ['controller' => 'SettingUserController', 'action' => 'updateFavoriteTour'],
     'Tour.index' => ['controller' => 'TourController', 'action' => 'index'],
@@ -57,4 +58,3 @@ return [
     'TourImage.delete' => ['controller' => 'TourImageController', 'action' => 'delete'],
     'Statistics.index' => ['controller' => 'StatisticsController', 'action' => 'index'],
 ];
-?>

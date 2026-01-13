@@ -176,7 +176,6 @@ class SettingUserController
 
         // Hiển thị lại view với dữ liệu từ DB
         include __DIR__ . '/../views/components/BookingHistory.php';
-
     }
     public function detailBookingHistory() // Hiển thị chi tiết đặt tour
     {
@@ -234,6 +233,95 @@ class SettingUserController
         header('Location: ' . route('settinguser.detailBookingHistory', ['id' => $bookingId]));
     }
 
+    //=================== Đánh giá tour ===================//
+    public function submitReview()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . route('settinguser.bookingHistory'));
+            return;
+        }
+
+        $bookingId = isset($_POST['booking_id']) ? (int) $_POST['booking_id'] : null;
+        $rating = isset($_POST['rating']) ? (int) $_POST['rating'] : null;
+        $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
+
+        // Kiểm tra dữ liệu
+        if (!$bookingId || !$rating) {
+            if (session_status() === PHP_SESSION_NONE)
+                session_start();
+            $_SESSION['error_message'] = 'Vui lòng chọn đánh giá.';
+            header('Location: ' . route('settinguser.detailBookingHistory', ['id' => $bookingId]));
+            return;
+        }
+
+        if ($rating < 1 || $rating > 5) {
+            if (session_status() === PHP_SESSION_NONE)
+                session_start();
+            $_SESSION['error_message'] = 'Đánh giá phải từ 1 đến 5 sao.';
+            header('Location: ' . route('settinguser.detailBookingHistory', ['id' => $bookingId]));
+            return;
+        }
+
+        // Lấy thông tin booking để xác minh booking thuộc về user
+        $bookingDetail = $this->bookingHistoryModel->getById($bookingId);
+        if (!$bookingDetail || (int) $bookingDetail['user_id'] !== (int) $this->userId) {
+            http_response_code(404);
+            echo "Booking không tồn tại hoặc không thuộc về bạn";
+            return;
+        }
+
+        $tourId = $bookingDetail['tour_id'];
+
+        require_once __DIR__ . '/../models/Review.php';
+        $reviewModel = new Review();
+
+        // Kiểm tra xem user đã đánh giá tour này chưa
+        $existingReview = $this->checkExistingReview($this->userId, $tourId);
+
+        if ($existingReview) {
+            // Cập nhật đánh giá cũ
+            $reviewModel->update(
+                $existingReview['id'],
+                $this->userId,
+                $tourId,
+                $rating,
+                $comment
+            );
+            $message = 'Cập nhật đánh giá thành công!';
+        } else {
+            // Tạo đánh giá mới
+            $reviewModel->create(
+                $this->userId,
+                $tourId,
+                $rating,
+                $comment
+            );
+            $message = 'Đánh giá tour thành công!';
+        }
+
+        if (session_status() === PHP_SESSION_NONE)
+            session_start();
+        $_SESSION['booking_success'] = true;
+        $_SESSION['booking_message'] = $message;
+        header('Location: ' . route('settinguser.detailBookingHistory', ['id' => $bookingId]));
+    }
+
+    private function checkExistingReview($userId, $tourId)
+    {
+        require_once __DIR__ . '/../../config/database.php';
+        $db = new Database();
+        $conn = $db->getConnection();
+
+        $stmt = $conn->prepare("SELECT id FROM reviews WHERE user_id = ? AND tour_id = ?");
+        $stmt->bind_param('ii', $userId, $tourId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $review = $result->fetch_assoc();
+
+        $db->close();
+        return $review;
+    }
+
     //=================== Tour yêu thích ===================//
     public function favoriteTour() // Hiển thị tour yêu thích
     {
@@ -269,6 +357,4 @@ class SettingUserController
         $favoriteTours = $favouriteTourService->getFavouriteToursByUser($this->userId);
         include __DIR__ . '/../views/components/FavouriteTour.php';
     }
-
-
 }
