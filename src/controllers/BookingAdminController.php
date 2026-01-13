@@ -114,7 +114,8 @@ class BookingAdminController
                 $bookingModel->appendAdminNote($bookingId, implode(' - ', $noteParts));
             }
 
-            $_SESSION['admin_message'] = 'Đã phê duyệt hoàn tiền và hủy booking.';
+            // Show refund amount in the success message
+            $_SESSION['admin_message'] = 'Đã phê duyệt hoàn tiền: <strong>' . number_format($refundAmount, 0, ',', '.') . ' đ</strong> và hủy booking.';
         } elseif ($action === 'deny') {
             // revert to confirmed state
             $bookingModel->updateStatus($bookingId, 'confirmed');
