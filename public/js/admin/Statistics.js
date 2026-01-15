@@ -13,13 +13,11 @@
 // Revenue Chart (Bar Chart)
 function initRevenueChart(monthlyData) {
 	if (!monthlyData || !Array.isArray(monthlyData)) {
-		console.warn("Monthly data not available for revenue chart");
 		return;
 	}
 
 	const revenueCtx = document.getElementById("revenueChart");
 	if (!revenueCtx) {
-		console.warn("Revenue chart canvas not found");
 		return;
 	}
 
@@ -104,13 +102,11 @@ function initRevenueChart(monthlyData) {
 // Status Chart (Doughnut Chart)
 function initStatusChart(statusData) {
 	if (!statusData || typeof statusData !== "object") {
-		console.warn("Status data not available for status chart");
 		return;
 	}
 
 	const statusCtx = document.getElementById("statusChart");
 	if (!statusCtx) {
-		console.warn("Status chart canvas not found");
 		return;
 	}
 
@@ -168,27 +164,15 @@ function initStatusChart(statusData) {
 
 // Initialize all charts on page load
 document.addEventListener("DOMContentLoaded", function () {
-	console.log("Initializing Statistics charts...");
-
-	// Check if Chart.js is loaded
 	if (typeof Chart === "undefined") {
-		console.error("Chart.js library not loaded");
 		return;
 	}
 
-	// Initialize revenue chart if data exists
 	if (typeof window.monthlyData !== "undefined" && window.monthlyData) {
-		console.log("Initializing revenue chart");
 		initRevenueChart(window.monthlyData);
-	} else {
-		console.warn("Monthly data not found in window object");
 	}
 
-	// Initialize status chart if data exists
 	if (typeof window.statusData !== "undefined" && window.statusData) {
-		console.log("Initializing status chart");
 		initStatusChart(window.statusData);
-	} else {
-		console.warn("Status data not found in window object");
 	}
 });
