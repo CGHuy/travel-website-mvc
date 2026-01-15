@@ -88,6 +88,10 @@ class SettingUserController
             echo "Mật khẩu mới và xác nhận mật khẩu không khớp.";
             return;
         }
+        if ($newPassword === $currentPassword) {
+            echo "Mật khẩu mới không được giống mật khẩu hiện tại.";
+            return;
+        }
         $this->userModel->update($this->userId, $user['fullname'], $user['phone'], $user['email'], $newPassword, $user['role'], $user['status']);
         header('Location: ' . route('settinguser.changePassword'));
     }
@@ -107,27 +111,7 @@ class SettingUserController
         $bookings = $this->bookingHistoryModel->getByUserId($this->userId, $statusValue);
         include __DIR__ . '/../views/components/BookingHistory.php';
     }
-    public function updateBookingHistory()
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . route('settinguser.bookingHistory'));
-            return;
-        }
-        // Cập nhật danh sách booking theo id đc chọn 
-        $bookingId = isset($_POST['id']) ? (int) $_POST['id'] : null;
-        if ($bookingId) {
-            $bookingDetail = $this->bookingHistoryModel->getById($bookingId);
-            if (!$bookingDetail) {
-                http_response_code(404);
-                echo "Booking không tồn tại";
-                return;
-            }
-            $bookings = [$bookingDetail];
-        } else {
-            $bookings = $this->bookingHistoryModel->getByUserId($this->userId);
-        }
-        include __DIR__ . '/../views/components/BookingHistory.php';
-    }
+
     public function detailBookingHistory() // Hiển thị chi tiết booking
     {
         $bookingId = isset($_GET['id']) ? (int) $_GET['id'] : null;
@@ -259,9 +243,8 @@ class SettingUserController
             $action = $_POST['action'] ?? '';
             $tour_id = isset($_POST['tour_id']) ? (int) $_POST['tour_id'] : null;
             $wishlist_id = isset($_POST['wishlist_id']) ? (int) $_POST['wishlist_id'] : null;
-            if ($action === 'add' && $tour_id) {
-                $wishlistModel->create($this->userId, $tour_id);
-            } elseif ($action === 'delete' && $wishlist_id) {
+
+            if ($action === 'delete' && $wishlist_id) {
                 $favouriteTourService->deleteFavourite($wishlist_id);
             }
             header('Location: ' . route('settinguser.favoriteTour'));

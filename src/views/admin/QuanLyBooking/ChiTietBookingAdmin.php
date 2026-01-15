@@ -128,7 +128,7 @@ $currentPage = 'booking'; ?>
                         <td>
                             <?php
                             $statusBadge = [
-                                ,
+
                                 'paid' => '<span class="badge bg-success">Đã thanh toán</span>',
                                 'refunded' => '<span class="badge bg-danger">Đã hoàn tiền</span>'
                             ];

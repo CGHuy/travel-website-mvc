@@ -67,7 +67,7 @@ class BookingHistoryService
             $params[] = $status;
         }
 
-        $query .= " ORDER BY b.created_at DESC";
+        $query .= " ORDER BY b.booking_code DESC";
 
         $stmt = $this->conn->prepare($query);
         $bind_names = [];
