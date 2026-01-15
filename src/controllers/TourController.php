@@ -13,7 +13,7 @@ class TourController {
 
     public function index() {
         $page = $_GET['page'] ?? 1;
-        $limit = 10;
+        $limit = 5;
         $offset = ($page - 1) * $limit;
         $tours = $this->model->getAllPaginated($offset, $limit);
         $total = $this->model->getTotal();
@@ -82,7 +82,7 @@ class TourController {
         }
         $id = $_POST['id'];
         
-        $departures = $this->departureModel->getByTourIdForBookingTour($id);
+        $departures = $this->departureModel->getByTourId($id);
         if (!empty($departures)) {
             $_SESSION['error_message'] = 'Không thể xóa tour vì tour này đã có lịch khởi hành. Vui lòng xóa các lịch khởi hành trước.';
             header('Location: ' . route('Tour.index'));

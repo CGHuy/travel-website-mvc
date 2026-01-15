@@ -167,32 +167,11 @@
                     <p class="text-danger m-0 p-2"><strong>Hành động này không thể hoàn tác.</strong></p>
                 </div>
 
-                <div class="modal-footer pb-0">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-danger">Xóa</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Thông báo không thể xóa tour -->
-<div class="modal fade" id="cannotDeleteTourModal" tabindex="-1" aria-labelledby="cannotDeleteTourModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="cannotDeleteTourModalLabel">Không thể xóa tour</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <p class="m-0 p-2">Tour: <strong id="cannot_delete_name" class="text-danger"></strong></p>
-                <p class="m-0 p-2">Lý do: <strong id="cannot_delete_reason" class="text-danger"></strong></p>
-            </div>
-
-            <div class="modal-footer pb-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
         </div>
     </div>
 </div>

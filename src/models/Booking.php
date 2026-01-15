@@ -122,6 +122,18 @@ class Booking
         }
     }
 
+    public function getByDepartureId($departure_id) {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM bookings WHERE departure_id = ?");
+        $stmt->bind_param("i", $departure_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $bookings = [];
+        while ($row = $result->fetch_assoc()) {
+            $bookings[] = $row;
+        }
+        return $bookings;
+    }
+
     public function __destruct()
     {
         $this->db->close();
