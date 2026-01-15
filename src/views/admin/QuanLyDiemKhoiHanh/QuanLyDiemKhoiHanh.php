@@ -31,7 +31,7 @@
         </span>
         <input class="form-control search-input" id="searchTourDeparture" placeholder="Tìm kiếm điểm khởi hành theo mã, tên tour, địa điểm..." value="" aria-label="Tìm kiếm" />
     </div>
-    <button class="btn btn-primary mb-3" id="addTourDepartureBtn">Thêm Điểm Khởi Hành Mới</button>
+    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTourDepartureModal">Thêm Điểm Khởi Hành Mới</a>
     <div class="list-group">
         <?php if (!empty($departures)): ?>
             <?php foreach ($departures as $departure): ?>
@@ -61,15 +61,19 @@
                                 <small class="text-muted find_id">Mã: <?= htmlspecialchars($departure['departure_code']) ?></small>
                             </div>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-primary edit-tour-departure-btn"
+                                <a href="#" class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editTourDepartureModal"
                                     data-id="<?= $departure['id'] ?>">
                                     <i class="fa-solid fa-pen-to-square me-1"></i> Sửa
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger delete-tour-departure-btn"
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteTourDepartureModal"
                                     data-id="<?= $departure['id'] ?>"
                                     data-name="<?= htmlspecialchars($departure['tour_name']) ?>">
                                     <i class="fa-solid fa-trash me-1"></i> Xóa
-                                </button>
+                                </a>
                             </div>
                         </div>
                         <hr class="my-2">
@@ -134,16 +138,16 @@
     </div>
 </div>
 
-<!-- Modal thêm/sửa Điểm Khởi Hành -->
-<div class="modal fade" id="tourDepartureModal" tabindex="-1" aria-labelledby="tourDepartureModalLabel" aria-hidden="true">
+<!-- Modal thêm -->
+<div class="modal fade" id="addTourDepartureModal" tabindex="-1" aria-labelledby="addTourDepartureModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tourDepartureModalLabel">Thêm Điểm Khởi Hành</h5>
+                <h5 class="modal-title" id="addTourDepartureModalLabel">Thêm Điểm Khởi Hành</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pb-0 pt-0">
-                <!-- Nội dung form sẽ được load động -->
+                <!-- Nội dung -->
                 <div class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -151,6 +155,54 @@
                     <p class="mt-2">Đang tải form...</p>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal sửa -->
+<div class="modal fade" id="editTourDepartureModal" tabindex="-1" aria-labelledby="editTourDepartureModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTourDepartureModalLabel">Sửa Điểm Khởi Hành</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pb-0 pt-0">
+                <!-- Nội dung -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Đang tải form...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xóa -->
+<div class="modal fade" id="deleteTourDepartureModal" tabindex="-1" aria-labelledby="deleteTourDepartureModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="deleteTourDepartureModalLabel">Xác nhận xóa điểm khởi hành</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" action="<?= route('TourDeparture.delete') ?>">
+                <input type="hidden" name="id" id="delete_id">
+
+                <div class="modal-body">
+                    <p class="m-0 p-2">Bạn có chắc chắn muốn xóa điểm khởi hành:</p>
+                    <strong id="delete_name" class="p-2"></strong>
+                    <p class="text-danger m-0 p-2"><strong>Hành động này không thể hoàn tác.</strong></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

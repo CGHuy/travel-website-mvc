@@ -1,16 +1,19 @@
 <?php
 require_once __DIR__ . '/../models/TourDeparture.php';
+require_once __DIR__ . '/../models/Booking.php';
 
 class TourDepartureController {
     private $model;
+    private $bookingModel;
 
     public function __construct() {
         $this->model = new TourDeparture();
+        $this->bookingModel = new Booking();
     }
 
     public function index() {
         $page = $_GET['page'] ?? 1;
-        $limit = 10;
+        $limit = 5;
         $offset = ($page - 1) * $limit;
         $departures = $this->model->getAllPaginated($offset, $limit);
         $total = $this->model->getTotal();
@@ -69,6 +72,14 @@ class TourDepartureController {
                 session_start();
             }
             $id = $_POST['id'];
+
+            $bookings = $this->bookingModel->getByDepartureId($id);
+            if (!empty($bookings)) {
+                $_SESSION['error_message'] = 'Không thể xóa điểm khởi hành vì điểm khởi hành này đã có booking.';
+                header('Location: ' . route('TourDeparture.index'));
+                exit;
+            }
+
             $this->model->delete($id);
             $_SESSION['success_message'] = 'Điểm khởi hành đã được xóa thành công.';
             header('Location: ' . route('TourDeparture.index'));

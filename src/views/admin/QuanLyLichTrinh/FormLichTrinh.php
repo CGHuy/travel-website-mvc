@@ -66,7 +66,7 @@
                <i class="fas fa-plus-circle me-1"></i> Thêm Ngày Mới
           </button>
      </div>
-     <div class="modal-footer p-3 pb-0">
+     <div class="modal-footer p-3">
           <button type="submit" class="btn btn-primary px-4">
                <i class="fas fa-save me-1"></i> Lưu Lịch Trình
           </button>
