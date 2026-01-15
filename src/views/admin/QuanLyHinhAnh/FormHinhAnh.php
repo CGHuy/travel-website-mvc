@@ -17,9 +17,11 @@
                 <?php foreach ($images as $img): ?>
                     <div class="col-6 col-md-4" data-image-id="<?= $img['id'] ?>">
                         <div class="card">
-                            <img src="<?= htmlspecialchars($img['image']) ?>" class="card-img-top" style="height:140px; object-fit:cover;">
+                            <img src="<?= htmlspecialchars($img['image']) ?>" class="card-img-top"
+                                style="height:140px; object-fit:cover;">
                             <div class="card-body p-2 text-center">
-                                <button type="button" class="btn btn-sm btn-danger btn-delete-image" data-image-id="<?= $img['id'] ?>">Xóa</button>
+                                <button type="button" class="btn btn-sm btn-danger btn-delete-image"
+                                    data-image-id="<?= $img['id'] ?>">Xóa</button>
                             </div>
                         </div>
                     </div>
@@ -41,5 +43,5 @@
 </form>
 
 <script>
-// Note: inline script removed in favor of external initializer. Left minimal for compatibility if loaded directly.
+    // Note: inline script removed in favor of external initializer. Left minimal for compatibility if loaded directly.
 </script>

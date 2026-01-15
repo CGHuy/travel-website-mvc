@@ -61,17 +61,17 @@ class TourImageController
             header('Location: ' . route('TourImage.index'));
             return;
         }
-        // If images are uploaded, read their contents and store as data URI in DB
+        // If images are uploaded, read their contents and store as binary in DB
         if (!empty($_FILES['images'])) {
             $files = $_FILES['images'];
             for ($i = 0; $i < count($files['name']); $i++) {
-                if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
+                if ($files['error'][$i] !== UPLOAD_ERR_OK)
+                    continue;
                 $tmpName = $files['tmp_name'][$i];
                 $data = @file_get_contents($tmpName);
-                if ($data === false) continue;
-                $mime = function_exists('mime_content_type') ? mime_content_type($tmpName) : 'application/octet-stream';
-                $dataUri = 'data:' . $mime . ';base64,' . base64_encode($data);
-                $this->model->create($tour_id, $dataUri);
+                if ($data === false)
+                    continue;
+                $this->model->create($tour_id, $data);
             }
         }
 
@@ -92,6 +92,6 @@ class TourImageController
         }
         // For DB-backed images we don't maintain filesystem files, just delete DB record
         $res = $this->model->delete($id);
-        echo json_encode(['success' => (bool)$res]);
+        echo json_encode(['success' => (bool) $res]);
     }
 }
