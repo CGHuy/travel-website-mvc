@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="cover_image" class="form-label">Ảnh Bìa</label>
-                <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*" required>
+                <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*">
             </div>
         </div>
     </div>

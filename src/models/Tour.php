@@ -50,7 +50,7 @@ class Tour {
         if ($cover_image !== null) {
             // Cập nhật tất cả bao gồm cả ảnh mới
             $stmt = $this->conn->prepare("UPDATE tours SET name = ?, slug = ?, description = ?, location = ?, region = ?, duration = ?, price_default = ?, price_child = ?, cover_image = ? WHERE id = ?");
-            $stmt->bind_param("ssssssddbsi", $name, $slug, $description, $location, $region, $duration, $price_default, $price_child, $cover_image, $id);
+            $stmt->bind_param("ssssssddbi", $name, $slug, $description, $location, $region, $duration, $price_default, $price_child, $cover_image, $id);
             $stmt->send_long_data(8, $cover_image);
         } else {
             // Không cập nhật cột cover_image nếu người dùng không chọn file mới

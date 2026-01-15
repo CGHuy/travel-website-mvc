@@ -21,6 +21,7 @@ return [
     'Tour.create' => ['controller' => 'TourController', 'action' => 'create'],
     'Tour.update' => ['controller' => 'TourController', 'action' => 'update'],
     'Tour.delete' => ['controller' => 'TourController', 'action' => 'delete'],
+    'Tour.exportExcel' => ['controller' => 'TourController', 'action' => 'exportExcel'],
     'Tour.getAddForm' => ['controller' => 'TourController', 'action' => 'getAddForm'],
     'Tour.getEditForm' => ['controller' => 'TourController', 'action' => 'getEditForm'],
     'TourItinerary.index' => ['controller' => 'TourItineraryController', 'action' => 'index'],

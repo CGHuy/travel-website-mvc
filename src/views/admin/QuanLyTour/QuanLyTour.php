@@ -33,6 +33,9 @@
         <input class="form-control search-input" placeholder="Tìm kiếm tour theo id, tên, địa điểm..." value="" aria-label="Tìm kiếm" />
     </div>
     <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTourModal">Thêm Tour Mới</a>
+    <a href="<?= route('Tour.exportExcel') ?>" type="button" id="exportExcelBtn" class="btn btn-success mb-3 ms-2">
+        <i class="fa-solid fa-file-excel me-1"></i> Xuất Excel
+    </a>
     <div class="list-group">
         <?php if (!empty($tours)): ?>
             <?php foreach ($tours as $tour): ?>

@@ -41,6 +41,12 @@ class TourController {
             $cover_image = null;
             if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
                 $cover_image = file_get_contents($_FILES['cover_image']['tmp_name']);
+            } else {
+                // Đọc ảnh default nếu không có ảnh được chọn
+                $default_image_path = __DIR__ . '/../../public/images/default.png';
+                if (file_exists($default_image_path)) {
+                    $cover_image = file_get_contents($default_image_path);
+                }
             }
             $this->model->create($name, $slug, $description, $location, $region, $duration, $price_default, $price_child, $cover_image);
             $_SESSION['success_message'] = 'Tour đã được thêm thành công.';
@@ -67,6 +73,12 @@ class TourController {
             $cover_image = null;
             if (isset($_FILES['edit_cover_image']) && $_FILES['edit_cover_image']['error'] === UPLOAD_ERR_OK) {
                 $cover_image = file_get_contents($_FILES['edit_cover_image']['tmp_name']);
+            } else {
+                // Đọc ảnh default nếu không có ảnh được chọn
+                $default_image_path = __DIR__ . '/../../public/images/default.png';
+                if (file_exists($default_image_path)) {
+                    $cover_image = file_get_contents($default_image_path);
+                }
             }
 
             $this->model->update($id, $name, $slug, $description, $location, $region, $duration, $price_default, $price_child, $cover_image);
@@ -111,5 +123,84 @@ class TourController {
             return;
         }
         include __DIR__ . '/../views/admin/QuanLyTour/FormEditTour.php';
+    }
+
+    public function exportExcel() {
+
+        require_once __DIR__ . '/../../classes/PHPExcel.php';
+        require_once __DIR__ . '/../../classes/PHPExcel/IOFactory.php';
+
+        $objExcel = new PHPExcel();
+        $objExcel->setActiveSheetIndex(0);
+        $sheet = $objExcel->getActiveSheet()->setTitle('DSTour');
+        $rowCount = 1;
+
+        // Tiêu đề cột
+        $sheet->setCellValue('A'.$rowCount,'Mã tour');
+        $sheet->setCellValue('B'.$rowCount,'Tour code');
+        $sheet->setCellValue('C'.$rowCount,'Tên tour');
+        $sheet->setCellValue('D'.$rowCount,'Slug');
+        $sheet->setCellValue('E'.$rowCount,'Mô tả');
+        $sheet->setCellValue('F'.$rowCount,'Địa điểm');
+        $sheet->setCellValue('G'.$rowCount,'Khu vực');
+        $sheet->setCellValue('H'.$rowCount,'Giá');
+        $sheet->setCellValue('I'.$rowCount,'Giá trẻ em');
+
+        // Định dạng tiêu đề
+        $headerStyle = array(
+            'font' => array(
+                    'bold' => true,
+                    'color' => array('rgb' => 'FFFFFF')
+            ),
+            'fill' => array(
+                    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                    'color' => array('rgb' => '4F81BD')
+            ),
+            'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER
+            )
+        );
+        $sheet->getStyle('A1:I1')->applyFromArray($headerStyle);
+
+        $data = $this->model->getAll();
+
+        foreach ($data as $row) {
+            $rowCount++;
+            $sheet->setCellValue('A'.$rowCount, $row['id']);
+            $sheet->setCellValue('B'.$rowCount, $row['tour_code']);
+            $sheet->setCellValue('C'.$rowCount, $row['name']);
+            $sheet->setCellValue('D'.$rowCount, $row['slug']);
+            $sheet->setCellValue('E'.$rowCount, $row['description']);
+            $sheet->setCellValue('F'.$rowCount, $row['location']);
+            $sheet->setCellValue('G'.$rowCount, $row['region']);
+            $sheet->setCellValue('H'.$rowCount, $row['price_default']);
+            $sheet->setCellValue('I'.$rowCount, $row['price_child']);
+        }
+
+        // Tự động điều chỉnh độ rộng cột
+        foreach(range('A','I') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Định dạng viền bảng
+        $borderStyle = array(
+            'borders' => array(
+                    'allborders' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN,
+                        'color' => array('rgb' => '000000')
+                    )
+            )
+        );
+        $sheet->getStyle('A1:I'.$rowCount)->applyFromArray($borderStyle);
+
+        if (ob_get_length()) ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="DSTour.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+        $writer->save('php://output');
+        exit;
     }
 }
