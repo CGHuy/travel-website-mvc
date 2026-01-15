@@ -67,7 +67,7 @@ class TourDeparture
         return $stmt->execute();
     }
 
-    public function getByTourIdForBookingTour($tour_id)
+    public function getByTourId($tour_id)
     {
         $stmt = $this->conn->prepare("SELECT * FROM tour_departures WHERE tour_id = ?");
         $stmt->bind_param("i", $tour_id);
